@@ -10,9 +10,8 @@ module buttAdapter()
 	difference()
 	{
 		// Exterior:
-		// tcu([-25, 0, 0], [50, 51+adapterBottomY, adapterZ]);
-		hull() translate([0, (51+adapterBottomY)/2, 0]) doubleX() doubleY() tcy([50/2, (51+adapterBottomY)/2, 0], d=6, h=adapterZ);
-
+		leadSledButt();
+		
 		// Butt profile:
 		hull()
 		{
@@ -32,6 +31,21 @@ module buttAdapter()
 				profileSection(fwdProfileWidthAt60mm, 60, dia=60, thicknessY=30);
 			}
 		}
+	}
+}
+
+module leadSledButt()
+{
+	// hull() translate([0, (51+adapterBottomY)/2, 0]) doubleX() doubleY() tcy([50/2, (51+adapterBottomY)/2, 0], d=6, h=adapterZ);
+	difference()
+	{
+		hull()
+		{
+			tcy([0,buttBottomDia/2,0], d=buttBottomDia, h=adapterZ);
+			tcy([0,buttBottomDia/2+30,0], d=buttWidthAt30mm, h=adapterZ);
+			tcy([0,buttBottomDia/2+50,0], d=buttWidthAt50mm, h=adapterZ);
+		}
+		tcu([-200, 60, -200], 400);
 	}
 }
 
