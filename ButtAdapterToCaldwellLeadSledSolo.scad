@@ -20,27 +20,31 @@ module buttAdapter()
 			translate([0, endOffsetY, endOffsetZ])
 			{
 				tcy([0, adapterBottomY+endProfileBottomDia/2, -1], d=endProfileBottomDia, h=1);
-				profileSection(endProfileWidthAt30mm, 30);
-				profileSection(endProfileWidthAt60mm, 60);
+				profileSection(endProfileWidthAt30mm, 30, dia=65, thicknessY=30);
+				profileSection(endProfileWidthAt60mm, 60, dia=65, thicknessY=30);
 			}
 
 			// Forward:
 			translate([0, fwdOffsetY, fwdOffsetZ])
 			{
 				tcy([0, adapterBottomY + fwdProfileBottomDia/2, -1], d=fwdProfileBottomDia, h=1);
-				profileSection(fwdProfileWidthAt30mm, 30);
-				profileSection(fwdProfileWidthAt60mm, 60);
+				profileSection(fwdProfileWidthAt30mm, 30, dia=70, thicknessY=30);
+				profileSection(fwdProfileWidthAt60mm, 60, dia=60, thicknessY=30);
 			}
 		}
 	}
 }
 
-module profileSection(x, y, thicknessZ=1)
+module profileSection(x, y, dia=100, thicknessZ=1, thicknessY=10)
 {
 	translate([0, adapterBottomY+y, -1]) difference() 
 	{
-		cylinder(d=x, h=thicknessZ);
-		doubleY() tcu([-200, 5, -200], 400);
+		doubleX() difference()
+		{
+			tcy([x/2-dia/2, 0, 0], d=dia, h=thicknessZ);
+			tcu([-400, -200, -200], 400);
+		}
+		doubleY() tcu([-200, thicknessY/2, -200], 400);
 	}
 }
 
