@@ -47,7 +47,7 @@ module profileSection(x, y, thicknessZ=1)
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	tcu([0-d, -200, -200], 400);
+	// tcu([0-d, -200, -200], 400);
 }
 
 if(developmentRender)
@@ -56,5 +56,5 @@ if(developmentRender)
 }
 else
 {
-	buttAdapter();
+	rotate([0,180,0]) buttAdapter();
 }
