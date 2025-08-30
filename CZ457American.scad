@@ -10,5 +10,12 @@ fwdOffsetZ = 51;
 fwdOffsetY = 10; // SWAG
 fwdProfileBottomDia = 20;
 fwdProfileWidthAt30mm = 34;
-fwdProfileWidthAt60mm = 40
-;
+fwdProfileWidthAt60mm = 40;
+
+// Fore-grip:
+foregripProfileBottomDia = 14;
+foregripProfileBottomWidth = 41;
+foregripProfileHeightAtMaxWidth = 30;
+foregripProfileMaxWidth = 34;
+
+
