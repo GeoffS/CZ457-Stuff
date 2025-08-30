@@ -3,7 +3,7 @@ include <../OpenSCAD_Lib/chamferedCylinders.scad>
 include <CaldwellLeadSledSolo.scad>
 include <CZ457American.scad>
 
-adapterBottomY = 3;
+adapterBottomY = 10;
 adapterZ = 10; //forwardSupportLength;
 
 module leadSledFwdAdapter()
@@ -44,10 +44,64 @@ module leadSledFwdAdapter()
 md = 5;
 md2 = md/2;
 
+topDia = 6;
+topX = 46.5;
+topY = forwardSupportHeight - topDia/2;
+
 module leadSledFwdHolder()
 {
-	x = foregripProfileMaxWidth + 6;
-	tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth, adapterZ]);
+	// x = foregripProfileMaxWidth + 6;
+	// tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth, adapterZ]);
+
+	// Top:
+	// %top();
+
+	difference()
+	{
+		hull()
+		{
+			// Center:
+			centerDia = 3;
+			#tcy([0, centerDia/2, 0], d=centerDia, h=adapterZ);
+
+			// Second bumps:
+			secondBumpsDia = 45;
+			secondBumpsX = 12;
+			secondBumpsY = 10 + secondBumpsDia/2;
+			#doubleX() tcy([secondBumpsX, secondBumpsY, 0], d=secondBumpsDia, h=adapterZ);
+
+			// Fourth bumps:
+			fourthBumpsDia = 8;
+			fourthBumpsX = topX - topDia/2 - fourthBumpsDia/2;
+			fourthBumpsY = topY;
+			#doubleX() tcy([fourthBumpsX-1, fourthBumpsY, 0], d=fourthBumpsDia, h=adapterZ);
+			doubleX() tcy([fourthBumpsX+6, fourthBumpsY+fourthBumpsDia, 0], d=fourthBumpsDia, h=adapterZ);
+		}
+
+		// First bumps:
+		firstBumpsDia = 20;
+		firstBumpsX = 13;
+		firstBumpsY = -firstBumpsDia/2 + 7.5;
+		doubleX() tcy([firstBumpsX, firstBumpsY, -1], d=firstBumpsDia, h=100);
+
+		// Third bumps:
+		thirdBumpsDia = 20;
+		thirdBumpsX = 37;
+		thirdBumpsY = 30 - thirdBumpsDia/2;
+		doubleX() tcy([thirdBumpsX, thirdBumpsY, -1], d=thirdBumpsDia, h=100);
+
+		// Trim top:
+		// tcu([-200, foregripProfileHeightAtMaxWidth, -200], 400);
+		tcu([-200, forwardSupportHeight, -200], 400);
+
+		// Trim sides:
+		doubleX() tcu([topX-topDia/2+1, 0, -200], 400);
+
+		top();
+		
+	}
+	
+
 	// minkowski() 
 	// {
 	// 	difference()
@@ -63,6 +117,11 @@ module leadSledFwdHolder()
 	// 	// sphere(d=md);
 	// 	translate([0,0,-md2]) simpleChamferedCylinderDoubleEnded(d=md, h=md, cz=2);
 	// }
+}
+
+module top()
+{
+	doubleX() tcy([topX, topY, -1], d=topDia, h=adapterZ+2);
 }
 
 // module profileSection(x, y, dia=100, thicknessZ=1, thicknessY=10)
