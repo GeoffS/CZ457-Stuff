@@ -11,7 +11,7 @@ module buttAdapter()
 	difference()
 	{
 		// Exterior:
-		leadSledButt();
+		leadSledFwdHolder();
 		
 		// Butt profile:
 		hull()
@@ -42,23 +42,24 @@ module buttAdapter()
 md = 5;
 md2 = md/2;
 
-module leadSledButt()
+module leadSledFwdHolder()
 {
-	minkowski() 
-	{
-		difference()
-		{
-			hull()
-			{
-				tcy([0, buttBottomDia/2,    md2], d=buttBottomDia-md, h=adapterZ-md);
-				tcy([0, buttWidthAt30mm/2+md2+30, md2], d=buttWidthAt30mm-md, h=adapterZ-md);
-				tcy([0, buttWidthAt50mm/2+md2+50, md2], d=buttWidthAt50mm-md, h=adapterZ-md);
-			}
-			tcu([-200, 65-md2, -200], 400);
-		}
-		// sphere(d=md);
-		translate([0,0,-md2]) simpleChamferedCylinderDoubleEnded(d=md, h=md, cz=2);
-	}
+	tcu([], []);
+	// minkowski() 
+	// {
+	// 	difference()
+	// 	{
+	// 		hull()
+	// 		{
+	// 			tcy([0, buttBottomDia/2,    md2], d=buttBottomDia-md, h=adapterZ-md);
+	// 			tcy([0, buttWidthAt30mm/2+md2+30, md2], d=buttWidthAt30mm-md, h=adapterZ-md);
+	// 			tcy([0, buttWidthAt50mm/2+md2+50, md2], d=buttWidthAt50mm-md, h=adapterZ-md);
+	// 		}
+	// 		tcu([-200, 65-md2, -200], 400);
+	// 	}
+	// 	// sphere(d=md);
+	// 	translate([0,0,-md2]) simpleChamferedCylinderDoubleEnded(d=md, h=md, cz=2);
+	// }
 }
 
 module profileSection(x, y, dia=100, thicknessZ=1, thicknessY=10)
