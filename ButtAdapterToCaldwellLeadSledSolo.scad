@@ -22,7 +22,7 @@ module buttAdapter()
 				// %tcy([0, adapterBottomY + endProfileBottomDia/2, -1], d=2, h=100);
 				tcy([0, adapterBottomY + endProfileBottomDia/2, -1], d=endProfileBottomDia, h=1);
 				profileSection(endProfileWidthAt30mm, 29, dia=65, thicknessY=30);
-				profileSection(endProfileWidthAt60mm, 60, dia=65, thicknessY=30);
+				profileSection(endProfileWidthAt60mm, 63, dia=65, thicknessY=30);
 			}
 
 			// Forward:
