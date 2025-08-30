@@ -44,8 +44,6 @@ md2 = md/2;
 
 module leadSledButt()
 {
-	
-	// hull() translate([0, (51+adapterBottomY)/2, 0]) doubleX() doubleY() tcy([50/2, (51+adapterBottomY)/2, 0], d=6, h=adapterZ);
 	minkowski() 
 	{
 		difference()
