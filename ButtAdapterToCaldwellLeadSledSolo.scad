@@ -58,8 +58,8 @@ module leadSledButt()
 			}
 			tcu([-200, 65-md2, -200], 400);
 		}
-		sphere(d=md);
-		// translate([0,0,-md2]) simpleChamferedCylinderDoubleEnded(d=md, h=md, cz=1);
+		// sphere(d=md);
+		translate([0,0,-md2]) simpleChamferedCylinderDoubleEnded(d=md, h=md, cz=2);
 	}
 }
 
