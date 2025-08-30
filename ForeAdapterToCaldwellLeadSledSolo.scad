@@ -3,7 +3,7 @@ include <../OpenSCAD_Lib/chamferedCylinders.scad>
 include <CaldwellLeadSledSolo.scad>
 include <CZ457American.scad>
 
-adapterBottomY = 10;
+adapterBottomY = 4; //10;
 adapterZ = 10; //forwardSupportLength;
 
 module leadSledFwdAdapter()
@@ -31,11 +31,11 @@ module leadSledFwdAdapter()
 				topDia = 20;
 				doubleX() tcy(
 					[
-						foregripProfileMaxWidth/2 - topDia/2, 
-						adapterBottomY+foregripProfileHeightAtMaxWidth, 
+						foregripProfileMaxWidth/2 - topDia/2 + 0.5, 
+						adapterBottomY + foregripProfileHeightAtMaxWidth + 2, 
 						0
 					], 
-					d=foregripProfileBottomDia, h=100);
+					d=topDia, h=100);
 			}
 		}
 	}
@@ -50,56 +50,56 @@ topY = forwardSupportHeight - topDia/2;
 
 module leadSledFwdHolder()
 {
-	// x = foregripProfileMaxWidth + 6;
-	// tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth, adapterZ]);
+	x = foregripProfileMaxWidth + 6;
+	tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth+adapterBottomY, adapterZ]);
 
 	// Top:
 	// %top();
 
-	difference()
-	{
-		hull()
-		{
-			// Center:
-			centerDia = 3;
-			#tcy([0, centerDia/2, 0], d=centerDia, h=adapterZ);
+	// difference()
+	// {
+	// 	hull()
+	// 	{
+	// 		// Center:
+	// 		centerDia = 3;
+	// 		tcy([0, centerDia/2, 0], d=centerDia, h=adapterZ);
 
-			// Second bumps:
-			secondBumpsDia = 45;
-			secondBumpsX = 12;
-			secondBumpsY = 10 + secondBumpsDia/2;
-			#doubleX() tcy([secondBumpsX, secondBumpsY, 0], d=secondBumpsDia, h=adapterZ);
+	// 		// Second bumps:
+	// 		secondBumpsDia = 45;
+	// 		secondBumpsX = 12;
+	// 		secondBumpsY = 10 + secondBumpsDia/2;
+	// 		doubleX() tcy([secondBumpsX, secondBumpsY, 0], d=secondBumpsDia, h=adapterZ);
 
-			// Fourth bumps:
-			fourthBumpsDia = 8;
-			fourthBumpsX = topX - topDia/2 - fourthBumpsDia/2;
-			fourthBumpsY = topY;
-			#doubleX() tcy([fourthBumpsX-1, fourthBumpsY, 0], d=fourthBumpsDia, h=adapterZ);
-			doubleX() tcy([fourthBumpsX+6, fourthBumpsY+fourthBumpsDia, 0], d=fourthBumpsDia, h=adapterZ);
-		}
+	// 		// Fourth bumps:
+	// 		fourthBumpsDia = 8;
+	// 		fourthBumpsX = topX - topDia/2 - fourthBumpsDia/2;
+	// 		fourthBumpsY = topY;
+	// 		doubleX() tcy([fourthBumpsX-1, fourthBumpsY, 0], d=fourthBumpsDia, h=adapterZ);
+	// 		doubleX() tcy([fourthBumpsX+6, fourthBumpsY+fourthBumpsDia, 0], d=fourthBumpsDia, h=adapterZ);
+	// 	}
 
-		// First bumps:
-		firstBumpsDia = 20;
-		firstBumpsX = 13;
-		firstBumpsY = -firstBumpsDia/2 + 7.5;
-		doubleX() tcy([firstBumpsX, firstBumpsY, -1], d=firstBumpsDia, h=100);
+	// 	// First bumps:
+	// 	firstBumpsDia = 20;
+	// 	firstBumpsX = 13;
+	// 	firstBumpsY = -firstBumpsDia/2 + 7.5;
+	// 	doubleX() tcy([firstBumpsX, firstBumpsY, -1], d=firstBumpsDia, h=100);
 
-		// Third bumps:
-		thirdBumpsDia = 20;
-		thirdBumpsX = 37;
-		thirdBumpsY = 30 - thirdBumpsDia/2;
-		doubleX() tcy([thirdBumpsX, thirdBumpsY, -1], d=thirdBumpsDia, h=100);
+	// 	// Third bumps:
+	// 	thirdBumpsDia = 20;
+	// 	thirdBumpsX = 37;
+	// 	thirdBumpsY = 30 - thirdBumpsDia/2;
+	// 	doubleX() tcy([thirdBumpsX, thirdBumpsY, -1], d=thirdBumpsDia, h=100);
 
-		// Trim top:
-		// tcu([-200, foregripProfileHeightAtMaxWidth, -200], 400);
-		tcu([-200, forwardSupportHeight, -200], 400);
+	// 	// Trim top:
+	// 	// tcu([-200, foregripProfileHeightAtMaxWidth, -200], 400);
+	// 	tcu([-200, forwardSupportHeight, -200], 400);
 
-		// Trim sides:
-		doubleX() tcu([topX-topDia/2+1, 0, -200], 400);
+	// 	// Trim sides:
+	// 	doubleX() tcu([topX-topDia/2+1, 0, -200], 400);
 
-		top();
+	// // 	top();
 		
-	}
+	// }
 	
 
 	// minkowski() 
