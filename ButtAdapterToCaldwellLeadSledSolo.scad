@@ -1,4 +1,5 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
+include <../OpenSCAD_Lib/chamferedCylinders.scad>
 include <CaldwellLeadSledSolo.scad>
 include <CZ457American.scad>
 
@@ -33,20 +34,32 @@ module buttAdapter()
 			}
 		}
 	}
+
+	// translate([0,20,-md2]) simpleChamferedCylinderDoubleEnded(d=md, h=md, cz=0.5);
+	// translate([0,30,0]) sphere(d=md);
 }
+
+md = 5;
+md2 = md/2;
 
 module leadSledButt()
 {
+	
 	// hull() translate([0, (51+adapterBottomY)/2, 0]) doubleX() doubleY() tcy([50/2, (51+adapterBottomY)/2, 0], d=6, h=adapterZ);
-	difference()
+	minkowski() 
 	{
-		hull()
+		difference()
 		{
-			tcy([0,buttBottomDia/2,0], d=buttBottomDia, h=adapterZ);
-			tcy([0,buttBottomDia/2+30,0], d=buttWidthAt30mm, h=adapterZ);
-			tcy([0,buttBottomDia/2+50,0], d=buttWidthAt50mm, h=adapterZ);
+			hull()
+			{
+				tcy([0, buttBottomDia/2,    md2], d=buttBottomDia-md, h=adapterZ-md);
+				tcy([0, buttWidthAt30mm/2+md2+30, md2], d=buttWidthAt30mm-md, h=adapterZ-md);
+				tcy([0, buttWidthAt50mm/2+md2+50, md2], d=buttWidthAt50mm-md, h=adapterZ-md);
+			}
+			tcu([-200, 65-md2, -200], 400);
 		}
-		tcu([-200, 60, -200], 400);
+		sphere(d=md);
+		// translate([0,0,-md2]) simpleChamferedCylinderDoubleEnded(d=md, h=md, cz=1);
 	}
 }
 
