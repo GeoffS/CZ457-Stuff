@@ -192,10 +192,15 @@ if(developmentRender)
 
 	display() leadSledFwdAdapter(realThreads=false);
 	display() translate([-80,0,0]) cz457ForwardStockProfileTest();
+
+	// display() color("RoyalBlue", 1.0) rotate([90,0,0]) translate([0,0,-holderZ/2]) leadSledFwdAdapter(realThreads = false);
 }
 else
 {
 	if(makeTestProfile) cz457ForwardStockProfileTest();
 	if(makeForwardSupport) leadSledFwdAdapter(realThreads=true);
-	if(makeForRendering) rotate([90,0,0]) translate([0,0,-holderZ/2]) leadSledFwdAdapter();
+	if(makeForRendering) 
+	{
+		color("RoyalBlue", 1.0) rotate([90,0,0]) translate([0,0,-holderZ/2]) leadSledFwdAdapter();
+	}
 }
