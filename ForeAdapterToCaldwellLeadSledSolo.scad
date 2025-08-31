@@ -8,9 +8,6 @@ include <CZ457American.scad>
 makeTestProfile = false;
 makeForwardSupport = false;
 
-// adapterBottomY = 4; //10;
-adapterZ = 10; //forwardSupportLength;
-
 module cz457ForwardStockProfile(adapterBottomY)
 {
 	dx = -1;
@@ -124,7 +121,7 @@ module cz457ForwardStockProfileTest()
 	difference()
 	{
 		x = foregripProfileMaxWidth + 10;
-		tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth+adapterBottomY, adapterZ]);
+		tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth+adapterBottomY, 10]);
 
 		cz457ForwardStockProfile(adapterBottomY=adapterBottomY);
 	}
