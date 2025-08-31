@@ -122,15 +122,26 @@ module leadSledFwdHolder(threadedHolderRecessY, realThreads)
 	}
 }
 
+extensionY = 85;
+
 module leadSledFwdHolderExterior(threadedHolderRecessY)
 {
 	ed2 = exteriorDia/2;
 
+	// Fork:
 	hull() doubleX()
 	{
 		exteriorCorner(22-ed2, ed2);
 		exteriorCorner(33-ed2, threadedHolderRecessY);
 		exteriorCorner(37-ed2, threadedHolderRecessY + 37 - ed2);
+	}
+
+	// Extension:
+	f = 1/cos(22.5);
+	extensionOffsetY = exteriorCZ + 5;
+	translate([0, extensionOffsetY, holderZ/2]) rotate([90,0,0]) 
+	{
+		rotate([0,0,22.5]) simpleChamferedCylinder(d=holderZ*f, h=extensionY+extensionOffsetY, cz=2, $fn=8);
 	}
 }
 
@@ -149,16 +160,21 @@ module threadedRodRecess(y, realThreads)
 		{
 			if(realThreads)
 			{
-				tcy([0,0,-100], d=nominalHoleDia, h=100);
+				tcy([0,0,-200], d=nominalHoleDia, h=200);
 			}
 			else 
 			{  
-				tcy([0,0,-100], d=nominalHoleDia, h=100);
+				tcy([0,0,-200], d=nominalHoleDia, h=200);
 			}
 		}
 
 		// Chamfer:
-		translate([0,0,-15+nominalHoleDia/2+1]) cylinder(d1=30, d2=0, h=15);
+		translate([0,0,-15-extensionY+nominalHoleDia/2+1]) cylinder(d1=30, d2=0, h=15);
+
+		// Dish:
+		translate([0,0,-extensionY-5+0.3]) simpleChamferedCylinder(d=28, h=5, cz=1);
+		// d = 400;
+		// #translate([0,0,-extensionY-d/2+0.5]) sphere(d=d, $fn=120);
 	}
 
 }
@@ -183,6 +199,7 @@ module clip(d=0)
 	// tcu([0-d, -200, -200], 400);
 
 	// tcu([-200, -200, holderZ/2-d], 400);
+	tcu([-200, -200, -400+holderZ/2-d], 400);
 }
 
 if(developmentRender)
