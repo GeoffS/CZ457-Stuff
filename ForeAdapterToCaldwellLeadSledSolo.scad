@@ -13,41 +13,43 @@ adapterZ = 10; //forwardSupportLength;
 
 module cz457ForwardStockProfile(adapterBottomY)
 {
+	dx = -1;
+
 	// Fore-grip profile:
-		hull()
+	hull()
+	{
+		translate([0, 0, -1])
 		{
-			translate([0, 0, -1])
-			{
-				// Bottom:
-				doubleX() tcy(
-					[
-						foregripProfileBottomWidth/2 - foregripProfileBottomDia/2, 
-						adapterBottomY+foregripProfileBottomDia/2, 
-						0
-					], 
-					d=foregripProfileBottomDia, h=100);
+			// Bottom:
+			doubleX() tcy(
+				[
+					foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx, 
+					adapterBottomY+foregripProfileBottomDia/2, 
+					0
+				], 
+				d=foregripProfileBottomDia, h=100);
 
-				// Middle:
-				middleDia = 40;
-				doubleX() tcy(
-					[
-						foregripProfileMaxWidth/2 - middleDia/2 + 1.3, 
-						adapterBottomY + 21.5, 
-						0
-					], 
-					d=middleDia, h=100);
+			// Middle:
+			middleDia = 40;
+			doubleX() tcy(
+				[
+					foregripProfileMaxWidth/2 - middleDia/2 + 1.3 + dx, 
+					adapterBottomY + 21.5, 
+					0
+				], 
+				d=middleDia, h=100);
 
-				// Top:
-				topDia = 20;
-				doubleX() tcy(
-					[
-						foregripProfileMaxWidth/2 - topDia/2 + 1.5, 
-						adapterBottomY + foregripProfileHeightAtMaxWidth + 2, 
-						0
-					], 
-					d=topDia, h=100);
-			}
+			// Top:
+			topDia = 20;
+			doubleX() tcy(
+				[
+					foregripProfileMaxWidth/2 - topDia/2 + 1.5 + dx, 
+					adapterBottomY + foregripProfileHeightAtMaxWidth + 2, 
+					0
+				], 
+				d=topDia, h=100);
 		}
+	}
 }
 
 module leadSledFwdAdapter(realThreads)
@@ -133,16 +135,16 @@ module clip(d=0)
 	//tc([-200, -400-d, -10], 400);
 	// tcu([0-d, -200, -200], 400);
 
-	tcu([-200, -200, holderZ/2-d], 400);
+	// tcu([-200, -200, holderZ/2-d], 400);
 }
 
 if(developmentRender)
 {
-	// display() cz457ForwardStockProfileTest();
-	// display() translate([-80,0,0]) leadSledFwdAdapter(realThreads=false);
+	display() cz457ForwardStockProfileTest();
+	display() translate([-80,0,0]) leadSledFwdAdapter(realThreads=false);
 
-	display() leadSledFwdAdapter(realThreads=false);
-	display() translate([-80,0,0]) cz457ForwardStockProfileTest();
+	// display() leadSledFwdAdapter(realThreads=false);
+	// display() translate([-80,0,0]) cz457ForwardStockProfileTest();
 }
 else
 {
