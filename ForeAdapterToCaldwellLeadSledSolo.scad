@@ -61,6 +61,9 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 			forwardStockProfileZMaxChamfer(pMiddle);
 			forwardStockProfileZMaxChamfer(pTop);
 		}
+
+		// Chamfer the top edges:
+		doubleX() translate([21, 67, -1]) rotate([0,0,45]) tcu([-5,-2.2,0], [10, 10, 100]);
 	}
 }
 
@@ -126,7 +129,7 @@ module leadSledFwdHolderExterior(threadedHolderRecessY)
 	{
 		exteriorCorner(22-ed2, ed2);
 		exteriorCorner(33-ed2, threadedHolderRecessY);
-		exteriorCorner(37-ed2, threadedHolderRecessY + 35 - ed2);
+		exteriorCorner(37-ed2, threadedHolderRecessY + 37 - ed2);
 	}
 }
 
@@ -176,7 +179,7 @@ module cz457ForwardStockProfileTest()
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	tcu([0-d, -200, -200], 400);
+	// tcu([0-d, -200, -200], 400);
 
 	// tcu([-200, -200, holderZ/2-d], 400);
 }
