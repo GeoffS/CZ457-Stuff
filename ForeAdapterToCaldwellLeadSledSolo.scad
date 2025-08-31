@@ -105,7 +105,9 @@ module leadSledFwdAdapter(realThreads)
 	}
 }
 
-holderZ = 35;
+exteriorDia = 25;
+exteriorCZ = 3;
+holderZ = 35 + 2*exteriorCZ;
 
 module leadSledFwdHolder(threadedHolderRecessY, realThreads)
 {
@@ -115,9 +117,6 @@ module leadSledFwdHolder(threadedHolderRecessY, realThreads)
 		threadedRodRecess(y=threadedHolderRecessY, realThreads=realThreads);
 	}
 }
-
-exteriorDia = 25;
-exteriorCZ = 3;
 
 module leadSledFwdHolderExterior(threadedHolderRecessY)
 {
