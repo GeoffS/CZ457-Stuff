@@ -52,17 +52,37 @@ module cz457ForwardStockProfile(adapterBottomY)
 
 module leadSledFwdAdapter(realThreads)
 {
+	threadedHolderRecessY = 30;
 	difference()
 	{
-		leadSledFwdHolder(realThreads);
-		cz457ForwardStockProfile(adapterBottomY=10);
+		leadSledFwdHolder(threadedHolderRecessY=threadedHolderRecessY, realThreads=realThreads);
+		cz457ForwardStockProfile(adapterBottomY=threadedHolderRecessY+3);
 	}
 }
 
-module leadSledFwdHolder(realThreads)
+holderZ = 35;
+
+module leadSledFwdHolder(threadedHolderRecessY, realThreads)
 {
-	x = 55;
-	tcu([-x/2, 0, 0], [x, 41, 35]);
+	difference()
+	{
+		x = 55;
+		tcu([-x/2, 0, 0], [x, 31+threadedHolderRecessY, holderZ]);
+
+		threadedRodRecess(y=threadedHolderRecessY, realThreads=realThreads);
+	}
+}
+
+module threadedRodRecess(y, realThreads)
+{
+	translate([0, y, holderZ/2]) rotate([-90,0,0]) if(realThreads)
+	{
+		tcy([0,0,-100], d=12.5, h=100);
+	}
+	else 
+	{  
+		tcy([0,0,-100], d=12.5, h=100);
+	}
 }
 
 module cz457ForwardStockProfileTest()
@@ -82,6 +102,8 @@ module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
 	// tcu([0-d, -200, -200], 400);
+
+	tcu([-200, -200, holderZ/2-d], 400);
 }
 
 if(developmentRender)
