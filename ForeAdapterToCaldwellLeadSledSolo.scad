@@ -21,17 +21,27 @@ module leadSledFwdAdapter()
 				// Bottom:
 				doubleX() tcy(
 					[
-						foregripProfileBottomWidth/2-foregripProfileBottomDia/2, 
+						foregripProfileBottomWidth/2 - foregripProfileBottomDia/2, 
 						adapterBottomY+foregripProfileBottomDia/2, 
 						0
 					], 
 					d=foregripProfileBottomDia, h=100);
 
+				// Middle:
+				middleDia = 40;
+				doubleX() tcy(
+					[
+						foregripProfileMaxWidth/2 - middleDia/2 + 1.3, 
+						adapterBottomY + 21.5, 
+						0
+					], 
+					d=middleDia, h=100);
+
 				// Top:
 				topDia = 20;
 				doubleX() tcy(
 					[
-						foregripProfileMaxWidth/2 - topDia/2 + 0.5, 
+						foregripProfileMaxWidth/2 - topDia/2 + 1.5, 
 						adapterBottomY + foregripProfileHeightAtMaxWidth + 2, 
 						0
 					], 
@@ -50,7 +60,7 @@ topY = forwardSupportHeight - topDia/2;
 
 module leadSledFwdHolder()
 {
-	x = foregripProfileMaxWidth + 6;
+	x = foregripProfileMaxWidth + 10;
 	tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth+adapterBottomY, adapterZ]);
 
 	// Top:
