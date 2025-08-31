@@ -80,7 +80,7 @@ module leadSledFwdHolderExterior(threadedHolderRecessY)
 
 	hull() doubleX()
 	{
-		exteriorCorner(20-ed2,ed2);
+		exteriorCorner(22-ed2, ed2);
 		exteriorCorner(33-ed2, threadedHolderRecessY);
 		exteriorCorner(37-ed2, threadedHolderRecessY + 35 - ed2);
 	}
@@ -93,14 +93,26 @@ module exteriorCorner(x, y)
 
 module threadedRodRecess(y, realThreads)
 {
-	translate([0, y, holderZ/2]) rotate([-90,0,0]) if(realThreads)
+	nominalHoleDia = 12.5;
+
+	translate([0, 0, holderZ/2]) rotate([-90,0,0]) 
 	{
-		tcy([0,0,-100], d=12.5, h=100);
+		translate([0, 0, y]) 
+		{
+			if(realThreads)
+			{
+				tcy([0,0,-100], d=nominalHoleDia, h=100);
+			}
+			else 
+			{  
+				tcy([0,0,-100], d=nominalHoleDia, h=100);
+			}
+		}
+
+		// Chamfer:
+		translate([0,0,-15+nominalHoleDia/2+1]) cylinder(d1=30, d2=0, h=15);
 	}
-	else 
-	{  
-		tcy([0,0,-100], d=12.5, h=100);
-	}
+
 }
 
 module cz457ForwardStockProfileTest()
@@ -121,7 +133,7 @@ module clip(d=0)
 	//tc([-200, -400-d, -10], 400);
 	// tcu([0-d, -200, -200], 400);
 
-	// tcu([-200, -200, holderZ/2-d], 400);
+	tcu([-200, -200, holderZ/2-d], 400);
 }
 
 if(developmentRender)
