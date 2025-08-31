@@ -43,7 +43,7 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	{
 		forwardStockProfileCorner(pBottom);
 		forwardStockProfileCorner(pMiddle);
-		#forwardStockProfileCorner(pTop);
+		forwardStockProfileCorner(pTop);
 	}
 
 	// Chamfering:
