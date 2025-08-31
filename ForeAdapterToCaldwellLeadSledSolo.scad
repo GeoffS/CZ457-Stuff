@@ -71,10 +71,24 @@ module leadSledFwdHolder(threadedHolderRecessY, realThreads)
 	}
 }
 
+exteriorDia = 25;
+exteriorCZ = 3;
+
 module leadSledFwdHolderExterior(threadedHolderRecessY)
 {
-	x = 55;
-	tcu([-x/2, 0, 0], [x, 31+threadedHolderRecessY, holderZ]);
+	ed2 = exteriorDia/2;
+
+	hull() doubleX()
+	{
+		exteriorCorner(20-ed2,ed2);
+		exteriorCorner(33-ed2, threadedHolderRecessY);
+		exteriorCorner(37-ed2, threadedHolderRecessY + 35 - ed2);
+	}
+}
+
+module exteriorCorner(x, y)
+{
+	translate([x, y, 0]) simpleChamferedCylinderDoubleEnded(d=exteriorDia, h=holderZ, cz=exteriorCZ);
 }
 
 module threadedRodRecess(y, realThreads)
@@ -107,7 +121,7 @@ module clip(d=0)
 	//tc([-200, -400-d, -10], 400);
 	// tcu([0-d, -200, -200], 400);
 
-	tcu([-200, -200, holderZ/2-d], 400);
+	// tcu([-200, -200, holderZ/2-d], 400);
 }
 
 if(developmentRender)
