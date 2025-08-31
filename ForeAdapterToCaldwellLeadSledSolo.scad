@@ -8,69 +8,61 @@ include <CZ457American.scad>
 makeTestProfile = false;
 makeForwardSupport = false;
 
-module cz457ForwardStockProfile(adapterBottomY)
+module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 {
 	dx = -1;
+
+	pBottom = 
+	[
+		foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx, // X
+		adapterBottomY+foregripProfileBottomDia/2, // Y
+		foregripProfileBottomDia, // Diameter
+		holderZ // Height
+	];
+
+	middleDia = 40;
+	pMiddle = 
+	[
+		foregripProfileMaxWidth/2 - middleDia/2 + 1.3 + dx, // X
+		adapterBottomY + 21.5, // Y
+		middleDia, // Diameter
+		holderZ // Height
+	];
+
+	topDia = 20;
+	pTop = 
+	[
+		foregripProfileMaxWidth/2 - topDia/2 + 1.5 + dx, // X
+		adapterBottomY + foregripProfileHeightAtMaxWidth + 2, // Y
+		topDia, // Diameter
+		holderZ // Height
+	];
 
 	// Fore-grip profile:
 	hull()
 	{
-		translate([0, 0, -1])
+		translate([0, 0, 0])
 		{
-			// Bottom:
-			forwardStockProfileCorner(
-				x = foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx,
-				y = adapterBottomY+foregripProfileBottomDia/2, 
-				d = foregripProfileBottomDia,
-				h = 100
-			);
-			// doubleX() tcy(
-			// 	[
-			// 		foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx, 
-			// 		adapterBottomY+foregripProfileBottomDia/2, 
-			// 		0
-			// 	], 
-			// 	d=foregripProfileBottomDia, h=100);
-			
-
-			// Middle:
-			middleDia = 40;
-			doubleX() tcy(
-				[
-					foregripProfileMaxWidth/2 - middleDia/2 + 1.3 + dx, 
-					adapterBottomY + 21.5, 
-					0
-				], 
-				d=middleDia, h=100);
-
-			// Top:
-			topDia = 20;
-			doubleX() tcy(
-				[
-					foregripProfileMaxWidth/2 - topDia/2 + 1.5 + dx, 
-					adapterBottomY + foregripProfileHeightAtMaxWidth + 2, 
-					0
-				], 
-				d=topDia, h=100);
+			forwardStockProfileCorner(pBottom);
+			forwardStockProfileCorner(pMiddle);
+			forwardStockProfileCorner(pTop);
 		}
 	}
 }
 
-module forwardStockProfileCorner(x, y, d, h) 
+module forwardStockProfileCorner(p) 
 {
-	doubleX() tcy([x,y,0], d=d, h=h);
-	// doubleX() 
-	// {
-	// 	translate(
-	// 	[
-	// 		foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx, 
-	// 		adapterBottomY+foregripProfileBottomDia/2, 
-	// 		0
-	// 	]) 
-	// 	{
-	// 		cylinder(d=foregripProfileBottomDia, h=100);
-	// 	}
-	// }
+	d = p[2];
+	h = p[3];
+	
+	forwardStockProfileXForm(p) cylinder(d=d, h=h);
+}
+
+module forwardStockProfileXForm(p) 
+{
+	x = p[0];
+	y = p[1];
+	doubleX() translate([x,y,0]) children();
 }
 
 module leadSledFwdAdapter(realThreads)
@@ -147,7 +139,8 @@ module cz457ForwardStockProfileTest()
 		x = foregripProfileMaxWidth + 10;
 		tcu([-x/2, 0, 0], [x, foregripProfileHeightAtMaxWidth+adapterBottomY, 10]);
 
-		cz457ForwardStockProfile(adapterBottomY=adapterBottomY);
+		// This -------vv works because the profile uses holderZ which is > --^^
+		translate([0,0,-1]) cz457ForwardStockProfile(adapterBottomY=adapterBottomY, doChamfer=false);
 	}
 }
 
