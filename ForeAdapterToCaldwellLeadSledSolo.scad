@@ -9,6 +9,9 @@ makeTestProfile = false;
 makeForwardSupport = false;
 makeForRendering = false;
 
+halfInchNutRecessDia = 22.4;
+halfInchNutRecessDepth = 15;
+
 module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 {
 	dx = -1;
@@ -152,11 +155,16 @@ module exteriorCorner(x, y)
 
 module threadedRodRecess(y, realThreads)
 {
-	nominalHoleDia = 12.5;
+	// HACK!!!
+	// "+3" matches the old distance between the top of the rod and the bottom of the profile.
+	// See: leadSledFwdAdapter()
+	y1 = y + 3;
+
+	nominalHoleDia = 12.4;
 
 	translate([0, 0, holderZ/2]) rotate([-90,0,0]) 
 	{
-		translate([0, 0, y]) 
+		translate([0, 0, y1]) 
 		{
 			if(realThreads)
 			{
@@ -168,13 +176,14 @@ module threadedRodRecess(y, realThreads)
 			}
 		}
 
+		// Nut recess:
+		translate([0,0,y1-halfInchNutRecessDepth]) rotate([0,0,30]) cylinder(d=halfInchNutRecessDia, h=100, $fn=6);
+
 		// Chamfer:
 		translate([0,0,-15-extensionY+nominalHoleDia/2+1]) cylinder(d1=30, d2=0, h=15);
 
 		// Dish:
 		translate([0,0,-extensionY-5+0.3]) simpleChamferedCylinder(d=28, h=5, cz=1);
-		// d = 400;
-		// #translate([0,0,-extensionY-d/2+0.5]) sphere(d=d, $fn=120);
 	}
 
 }
