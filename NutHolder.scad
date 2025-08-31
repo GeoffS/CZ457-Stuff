@@ -2,10 +2,10 @@ include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCAD_Lib/chamferedCylinders.scad>
 
 halfInchNutRecessDia = 22.0;
-halfInchNutRecessDepth = 11.4;
+halfInchNutRecessDepth = 11.4 - 0.55;
 halfInchWasherOD = 35.5;
-halfInchWasherThickness = 2.9;
-halfInchRodOD = 12.8;
+halfInchWasherThickness = 2.9 - 0.1;
+halfInchRodOD = 13.0;
 
 knobCoreOD = 60;
 knobExtraZ = 3;
