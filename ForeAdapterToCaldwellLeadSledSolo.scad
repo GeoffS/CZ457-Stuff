@@ -7,6 +7,7 @@ include <CZ457American.scad>
 
 makeTestProfile = false;
 makeForwardSupport = false;
+makeForRendering = false;
 
 module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 {
@@ -196,4 +197,5 @@ else
 {
 	if(makeTestProfile) cz457ForwardStockProfileTest();
 	if(makeForwardSupport) leadSledFwdAdapter(realThreads=true);
+	if(makeForRendering) rotate([90,0,0]) translate([0,0,-holderZ/2]) leadSledFwdAdapter();
 }
