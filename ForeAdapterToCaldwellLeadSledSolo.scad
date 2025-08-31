@@ -42,7 +42,7 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	hull()
 	{
 		forwardStockProfileCorner(pBottom);
-		#forwardStockProfileCorner(pMiddle);
+		forwardStockProfileCorner(pMiddle);
 		forwardStockProfileCorner(pTop);
 	}
 
