@@ -18,13 +18,20 @@ module cz457ForwardStockProfile(adapterBottomY)
 		translate([0, 0, -1])
 		{
 			// Bottom:
-			doubleX() tcy(
-				[
-					foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx, 
-					adapterBottomY+foregripProfileBottomDia/2, 
-					0
-				], 
-				d=foregripProfileBottomDia, h=100);
+			forwardStockProfileCorner(
+				x = foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx,
+				y = adapterBottomY+foregripProfileBottomDia/2, 
+				d = foregripProfileBottomDia,
+				h = 100
+			);
+			// doubleX() tcy(
+			// 	[
+			// 		foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx, 
+			// 		adapterBottomY+foregripProfileBottomDia/2, 
+			// 		0
+			// 	], 
+			// 	d=foregripProfileBottomDia, h=100);
+			
 
 			// Middle:
 			middleDia = 40;
@@ -47,6 +54,23 @@ module cz457ForwardStockProfile(adapterBottomY)
 				d=topDia, h=100);
 		}
 	}
+}
+
+module forwardStockProfileCorner(x, y, d, h) 
+{
+	doubleX() tcy([x,y,0], d=d, h=h);
+	// doubleX() 
+	// {
+	// 	translate(
+	// 	[
+	// 		foregripProfileBottomWidth/2 - foregripProfileBottomDia/2 + dx, 
+	// 		adapterBottomY+foregripProfileBottomDia/2, 
+	// 		0
+	// 	]) 
+	// 	{
+	// 		cylinder(d=foregripProfileBottomDia, h=100);
+	// 	}
+	// }
 }
 
 module leadSledFwdAdapter(realThreads)
@@ -137,11 +161,11 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() cz457ForwardStockProfileTest();
-	display() translate([-80,0,0]) leadSledFwdAdapter(realThreads=false);
+	// display() cz457ForwardStockProfileTest();
+	// display() translate([-80,0,0]) leadSledFwdAdapter(realThreads=false);
 
-	// display() leadSledFwdAdapter(realThreads=false);
-	// display() translate([-80,0,0]) cz457ForwardStockProfileTest();
+	display() leadSledFwdAdapter(realThreads=false);
+	display() translate([-80,0,0]) cz457ForwardStockProfileTest();
 }
 else
 {
