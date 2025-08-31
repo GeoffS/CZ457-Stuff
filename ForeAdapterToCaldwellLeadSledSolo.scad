@@ -41,13 +41,43 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	// Fore-grip profile:
 	hull()
 	{
-		translate([0, 0, 0])
+		forwardStockProfileCorner(pBottom);
+		forwardStockProfileCorner(pMiddle);
+		forwardStockProfileCorner(pTop);
+	}
+
+	// Chamfering:
+	if(doChamfer)
+	{
+		hull()
 		{
-			forwardStockProfileCorner(pBottom);
-			forwardStockProfileCorner(pMiddle);
-			forwardStockProfileCorner(pTop);
+			forwardStockProfileZ0Chamfer(pBottom);
+			forwardStockProfileZ0Chamfer(pMiddle);
+			forwardStockProfileZ0Chamfer(pTop);
+		}
+		hull()
+		{
+			forwardStockProfileZMaxChamfer(pBottom);
+			forwardStockProfileZMaxChamfer(pMiddle);
+			forwardStockProfileZMaxChamfer(pTop);
 		}
 	}
+}
+
+module forwardStockProfileZ0Chamfer(p)
+{
+	d = p[2];
+	h = p[3];
+	
+	forwardStockProfileXForm(p) translate([0,0,-20+d/2+exteriorCZ]) cylinder(d1=40, d2=0, h=20);
+}
+
+module forwardStockProfileZMaxChamfer(p)
+{
+	d = p[2];
+	h = p[3];
+	
+	forwardStockProfileXForm(p) translate([0,0,h-d/2-exteriorCZ]) cylinder(d2=40, d1=0, h=20);
 }
 
 module forwardStockProfileCorner(p) 
@@ -147,7 +177,7 @@ module cz457ForwardStockProfileTest()
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	// tcu([0-d, -200, -200], 400);
+	tcu([0-d, -200, -200], 400);
 
 	// tcu([-200, -200, holderZ/2-d], 400);
 }
