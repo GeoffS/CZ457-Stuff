@@ -66,11 +66,15 @@ module leadSledFwdHolder(threadedHolderRecessY, realThreads)
 {
 	difference()
 	{
-		x = 55;
-		tcu([-x/2, 0, 0], [x, 31+threadedHolderRecessY, holderZ]);
-
+		leadSledFwdHolderExterior(threadedHolderRecessY=threadedHolderRecessY);
 		threadedRodRecess(y=threadedHolderRecessY, realThreads=realThreads);
 	}
+}
+
+module leadSledFwdHolderExterior(threadedHolderRecessY)
+{
+	x = 55;
+	tcu([-x/2, 0, 0], [x, 31+threadedHolderRecessY, holderZ]);
 }
 
 module threadedRodRecess(y, realThreads)
