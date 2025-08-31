@@ -137,14 +137,20 @@ module leadSledFwdHolderExterior(threadedHolderRecessY)
 		exteriorCorner(22-ed2, ed2);
 		exteriorCorner(33-ed2, threadedHolderRecessY);
 		exteriorCorner(37-ed2, threadedHolderRecessY + 37 - ed2);
+		extension(20);
 	}
 
+	extension(extensionY);
+}
+
+module extension(y)
+{
 	// Extension:
 	f = 1/cos(22.5);
 	extensionOffsetY = exteriorCZ + 5;
 	translate([0, extensionOffsetY, holderZ/2]) rotate([90,0,0]) 
 	{
-		rotate([0,0,22.5]) simpleChamferedCylinder(d=holderZ*f, h=extensionY+extensionOffsetY, cz=2, $fn=8);
+		rotate([0,0,22.5]) simpleChamferedCylinder(d=holderZ*f, h=y+extensionOffsetY, cz=2, $fn=8);
 	}
 }
 
@@ -208,7 +214,7 @@ module clip(d=0)
 	// tcu([0-d, -200, -200], 400);
 
 	// tcu([-200, -200, holderZ/2-d], 400);
-	tcu([-200, -200, -400+holderZ/2-d], 400);
+	// tcu([-200, -200, -400+holderZ/2-d], 400);
 }
 
 if(developmentRender)
