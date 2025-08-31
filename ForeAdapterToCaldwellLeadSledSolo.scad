@@ -24,7 +24,7 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	pMiddle = 
 	[
 		foregripProfileMaxWidth/2 - middleDia/2 + 1.3 + dx - 1.8, // X
-		adapterBottomY + 21, //21.5, // Y
+		adapterBottomY + 20.5, //21.5, // Y
 		middleDia, // Diameter
 		holderZ // Height
 	];
@@ -42,7 +42,7 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	hull()
 	{
 		forwardStockProfileCorner(pBottom);
-		forwardStockProfileCorner(pMiddle);
+		#forwardStockProfileCorner(pMiddle);
 		forwardStockProfileCorner(pTop);
 	}
 
