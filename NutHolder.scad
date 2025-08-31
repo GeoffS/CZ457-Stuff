@@ -7,7 +7,7 @@ halfInchWasherOD = 35.5;
 halfInchWasherThickness = 2.9 - 0.1;
 halfInchRodOD = 13.0;
 
-knobCoreOD = 60;
+knobCoreOD = 45;
 knobExtraZ = 3;
 knobZ = halfInchNutRecessDepth + halfInchWasherThickness + knobExtraZ;
 knobCZ = 2.5;
@@ -23,7 +23,7 @@ module itemModule()
             for (a=[0:360/10:360]) rotate([0,0,a])
             {
                 echo(str("a = ", a));
-                bumpDia = 15;
+                bumpDia = 11;
                 translate([knobCoreOD/2-bumpDia/2+bumpDia*0.35, 0, 0]) simpleChamferedCylinderDoubleEnded(d=bumpDia, h=knobZ, cz=knobCZ); 
             }
         }
