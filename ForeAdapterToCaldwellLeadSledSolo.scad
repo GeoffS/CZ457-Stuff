@@ -23,7 +23,7 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	middleDia = 40;
 	pMiddle = 
 	[
-		foregripProfileMaxWidth/2 - middleDia/2 + 1.3 + dx, // X
+		foregripProfileMaxWidth/2 - middleDia/2 + 1.3 + dx - 2, // X
 		adapterBottomY + 21.5, // Y
 		middleDia, // Diameter
 		holderZ // Height
@@ -32,7 +32,7 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	topDia = 20;
 	pTop = 
 	[
-		foregripProfileMaxWidth/2 - topDia/2 + 1.5 + dx, // X
+		foregripProfileMaxWidth/2 - topDia/2 + 1.5 + dx - 2, // X
 		adapterBottomY + foregripProfileHeightAtMaxWidth + 2, // Y
 		topDia, // Diameter
 		holderZ // Height
@@ -43,7 +43,7 @@ module cz457ForwardStockProfile(adapterBottomY, doChamfer=true)
 	{
 		forwardStockProfileCorner(pBottom);
 		forwardStockProfileCorner(pMiddle);
-		forwardStockProfileCorner(pTop);
+		#forwardStockProfileCorner(pTop);
 	}
 
 	// Chamfering:

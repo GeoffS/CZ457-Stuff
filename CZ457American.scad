@@ -14,7 +14,7 @@ fwdProfileWidthAt60mm = 40;
 
 // Fore-grip:
 foregripProfileBottomDia = 30;
-foregripProfileBottomWidth = 42;
+foregripProfileBottomWidth = 41;
 foregripProfileHeightAtMaxWidth = 30;
 foregripProfileMaxWidth = 45;
 
