@@ -23,8 +23,8 @@ module itemModule()
             for (a=[0:360/10:360]) rotate([0,0,a])
             {
                 echo(str("a = ", a));
-                bumpDia = 11;
-                translate([knobCoreOD/2-bumpDia/2+bumpDia*0.35, 0, 0]) simpleChamferedCylinderDoubleEnded(d=bumpDia, h=knobZ, cz=knobCZ); 
+                bumpDia = 12;
+                translate([knobCoreOD/2-bumpDia/2+bumpDia*0.28, 0, 0]) simpleChamferedCylinderDoubleEnded(d=bumpDia, h=knobZ, cz=knobCZ); 
             }
         }
 
