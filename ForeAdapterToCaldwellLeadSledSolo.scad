@@ -59,13 +59,6 @@ module leadSledFwdAdapter(realThreads)
 	}
 }
 
-md = 5;
-md2 = md/2;
-
-topDia = 6;
-topX = 46.5;
-topY = forwardSupportHeight - topDia/2;
-
 module leadSledFwdHolder(realThreads)
 {
 	x = 55;
