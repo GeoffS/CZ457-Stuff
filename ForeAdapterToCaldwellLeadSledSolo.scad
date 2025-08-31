@@ -50,11 +50,11 @@ module cz457ForwardStockProfile(adapterBottomY)
 		}
 }
 
-module leadSledFwdAdapter()
+module leadSledFwdAdapter(realThreads)
 {
 	difference()
 	{
-		leadSledFwdHolder();
+		leadSledFwdHolder(realThreads);
 		cz457ForwardStockProfile(adapterBottomY=10);
 	}
 }
@@ -66,11 +66,10 @@ topDia = 6;
 topX = 46.5;
 topY = forwardSupportHeight - topDia/2;
 
-module leadSledFwdHolder()
+module leadSledFwdHolder(realThreads)
 {
 	x = 55;
 	tcu([-x/2, 0, 0], [x, 41, 35]);
-	
 }
 
 module cz457ForwardStockProfileTest()
@@ -86,11 +85,6 @@ module cz457ForwardStockProfileTest()
 	}
 }
 
-module top()
-{
-	doubleX() tcy([topX, topY, -1], d=topDia, h=adapterZ+2);
-}
-
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
@@ -100,13 +94,13 @@ module clip(d=0)
 if(developmentRender)
 {
 	// display() cz457ForwardStockProfileTest();
-	// display() translate([-80,0,0]) leadSledFwdAdapter();
+	// display() translate([-80,0,0]) leadSledFwdAdapter(realThreads=false);
 
-	display() leadSledFwdAdapter();
+	display() leadSledFwdAdapter(realThreads=false);
 	display() translate([-80,0,0]) cz457ForwardStockProfileTest();
 }
 else
 {
 	if(makeTestProfile) cz457ForwardStockProfileTest();
-	if(makeForwardSupport) leadSledFwdAdapter();
+	if(makeForwardSupport) leadSledFwdAdapter(realThreads=true);
 }
