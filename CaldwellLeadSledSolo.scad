@@ -7,4 +7,4 @@ forwardSupportHeight = 39;
 forwardSupportTopWidth = 103;
 
 tubeOutsideDim = 34;
-tubeInsideDim = 31;
+tubeInsideDim = 30.7;
