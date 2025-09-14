@@ -23,21 +23,26 @@ makeTest = false;
 boltOD = 18;
 boltLength = 133;
 handleWidth = 8;
-guideHeight = 7;
+guideHeight = 6.6;
 handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
 
-holderWallThickness = guideHeight + 1;
 holderEndThickness = 3;
 
-holderOD = boltOD + holderWallThickness*2;
-holderEndCZ = 3;
+holderOD = 30; //boltOD + holderWallThickness*2;
+holderID = boltOD + 0.3;
+holderEndCZ = 2;
 holderEntryCZ = 2;
 holderLength = boltLength + holderEndThickness;
 
-handleSlotWidthExtra = 1;
+echo(str("holderOD = ", holderOD));
+
+handleSlotWidthExtra = 0.6;
 handleSlotWidth = handleWidth + handleSlotWidthExtra;
+
+holderWallThickness = (holderOD-holderID)/2;
+echo(str("holderWallThickness = ", holderWallThickness));
 
 module itemModule()
 {
@@ -49,7 +54,7 @@ module itemModule()
         translate([0,0,holderEndThickness])
         { 
             // Main recess:
-            cylinder(d=boltOD, h=200);
+            cylinder(d=boltOD+0.3, h=200);
 
             // Slot for bolt-handle:
             tcu([0, -handleSlotWidth/2, handleFromBoltFace], [100, handleSlotWidth, 200]);
@@ -78,7 +83,7 @@ module itemModule()
             doubleY() translate([0, handleSlotWidth/2+nubDia/2-nubExposure, holderLength - nubOffsetZ])
                 difference()
                 {
-                    tsp([((holderOD-holderWallThickness)/2)-0.7,0,0], d=nubDia);
+                    tsp([(holderOD/2+holderID/2)/2-0.7,0,0], d=nubDia);
                     tcu([-50,-nubDia/2+nubExposure+nothing,-50], 100);
                 }
     }
@@ -119,7 +124,7 @@ module fitTest()
         itemModule();
         translate([0,0,holderEndThickness])
         {
-            tcy([0,0,guideFromBoltFace+10], d=100, h=200);
+            tcy([0,0,guideFromBoltFace+13], d=100, h=200);
             tcy([0,0,handleFromBoltFace-3-200], d=100, h=200);
         }
     }
