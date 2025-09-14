@@ -36,7 +36,8 @@ holderEndCZ = 3;
 holderEntryCZ = 2;
 holderLength = boltLength + holderEndThickness;
 
-handleSlotWidth = handleWidth + 1;
+handleSlotWidthExtra = 1;
+handleSlotWidth = handleWidth + handleSlotWidthExtra;
 
 module itemModule()
 {
@@ -69,7 +70,7 @@ module itemModule()
 
     // Friction nubs on guide:
     nubDia = 8;
-    nubExposure = 0.3;
+    nubExposure = handleSlotWidthExtra/2 + 0.2;
     for(nubOffsetZ = [10, 20, 30, 40])
     {
         //exterior();
