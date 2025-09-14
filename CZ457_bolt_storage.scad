@@ -27,17 +27,9 @@ guideHeight = 7;
 handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
-// searWidth = 3.2;
-// searProtusion = 
-// searFromBoltFace = 88; // a bit generous...
-// searOffsetFromHandle_deg = -60;
 
 holderWallThickness = guideHeight + 1;
 holderEndThickness = 3;
-// holderBoltFaceStubOD = 3;
-// holderExtractorBottomID = 5;
-// holderExtractorTopID = 5;
-// holderBoltFaceStubZ = 4.5;
 
 holderOD = boltOD + holderWallThickness*2;
 holderEndCZ = 3;
@@ -63,21 +55,22 @@ module itemModule()
             // Slot for guide:
             rotate([0,0,guideOffsetFromHandle_deg]) tcu([0, -handleSlotWidth/2, guideFromBoltFace], [100, handleSlotWidth, 200]);
         }
-    }
 
-    // simpleChamferedCylinder(d=holderBoltFaceStubOD, h=holderBoltFaceStubZ+holderEndThickness, cz=0.6);
+        // Entry chamfer:
+        translate([0,0,holderLength-boltOD/2-2]) cylinder(d2=30, d1=0, h=15);
+    }
 }
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -10], 400);
+	tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
 {
-	// display() itemModule();
+	display() itemModule();
 
-    display() fitTest();
+    display() translate([-60,0,0]) fitTest();
 }
 else
 {
