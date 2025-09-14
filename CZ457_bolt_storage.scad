@@ -21,6 +21,9 @@ boltOD = 18;
 boltLength = 133;
 handleWidth = 8;
 guideHeight = 7;
+handleFromBoltFace = 70;
+guideFromBoltFace = 83;
+guideOffsetFromHandle_deg = 60;
 
 holderWallThickness = guideHeight + 3;
 holderEndThickness = 3;
@@ -33,13 +36,25 @@ holderOD = boltOD + holderWallThickness*2;
 holderEndCZ = 3;
 holderLength = boltLength + holderEndThickness;
 
+handleSlotWidth = handleWidth + 1;
+
 module itemModule()
 {
 	difference()
     {
         simpleChamferedCylinderDoubleEnded(d=holderOD, h=holderLength, cz=holderEndCZ);
         
-        tcy([0,0,holderEndThickness], d=boltOD, h=200);
+        translate([0,0,holderEndThickness])
+        { 
+            // Main recess:
+            cylinder(d=boltOD, h=200);
+
+            // Slot for bolt-handle:
+            tcu([0, -handleSlotWidth/2, handleFromBoltFace], [100, handleSlotWidth, 200]);
+
+            // Slot for guide:
+            rotate([0,0,guideOffsetFromHandle_deg]) tcu([0, -handleSlotWidth/2, guideFromBoltFace], [100, handleSlotWidth, 200]);
+        }
     }
 
     // simpleChamferedCylinder(d=holderBoltFaceStubOD, h=holderBoltFaceStubZ+holderEndThickness, cz=0.6);
@@ -47,7 +62,7 @@ module itemModule()
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -10], 400);
+	// tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
