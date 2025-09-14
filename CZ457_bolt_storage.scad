@@ -33,6 +33,7 @@ holderEndThickness = 3;
 
 holderOD = boltOD + holderWallThickness*2;
 holderEndCZ = 3;
+holderEntryCZ = 2;
 holderLength = boltLength + holderEndThickness;
 
 handleSlotWidth = handleWidth + 1;
@@ -56,14 +57,17 @@ module itemModule()
             rotate([0,0,guideOffsetFromHandle_deg]) tcu([0, -handleSlotWidth/2, guideFromBoltFace], [100, handleSlotWidth, 200]);
         }
 
+        // Chamfer at entry of holder-slot:
+        translate([0,0,holderLength-handleSlotWidth/2-holderEntryCZ]) rotate([0,0,guideOffsetFromHandle_deg]) rotate([45,0,0]) tcu([0,0,0], 20);
+
         // Entry chamfer:
-        translate([0,0,holderLength-boltOD/2-2]) cylinder(d2=30, d1=0, h=15);
+        translate([0,0,holderLength-boltOD/2-holderEntryCZ]) cylinder(d2=30, d1=0, h=15);
     }
 }
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -10], 400);
+	// tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
