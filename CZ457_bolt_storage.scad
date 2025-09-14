@@ -70,9 +70,9 @@ module itemModule()
     // Friction nubs on guide:
     nubDia = 8;
     nubExposure = 0.3;
-    for(nubOffsetZ = [10, 20, 30, 40]) intersection() 
+    for(nubOffsetZ = [10, 20, 30, 40])
     {
-        exterior();
+        //exterior();
         rotate([0,0,guideOffsetFromHandle_deg]) 
             doubleY() translate([0, handleSlotWidth/2+nubDia/2-nubExposure, holderLength - nubOffsetZ])
                 difference()
