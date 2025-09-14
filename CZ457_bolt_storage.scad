@@ -17,6 +17,9 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCAD_Lib/chamferedCylinders.scad>
 
+makeHolder = false;
+makeTest = false;
+
 boltOD = 18;
 boltLength = 133;
 handleWidth = 8;
@@ -24,8 +27,12 @@ guideHeight = 7;
 handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
+// searWidth = 3.2;
+// searProtusion = 
+// searFromBoltFace = 88; // a bit generous...
+// searOffsetFromHandle_deg = -60;
 
-holderWallThickness = guideHeight + 3;
+holderWallThickness = guideHeight + 1;
 holderEndThickness = 3;
 // holderBoltFaceStubOD = 3;
 // holderExtractorBottomID = 5;
@@ -42,6 +49,7 @@ module itemModule()
 {
 	difference()
     {
+        // Exterior:
         simpleChamferedCylinderDoubleEnded(d=holderOD, h=holderLength, cz=holderEndCZ);
         
         translate([0,0,holderEndThickness])
@@ -67,9 +75,25 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule();
+	// display() itemModule();
+
+    display() fitTest();
 }
 else
 {
-	itemModule();
+	if(makeHolder) itemModule();
+    if(makeTest) fitTest();
+}
+
+module fitTest()
+{
+    difference()
+    {
+        itemModule();
+        translate([0,0,holderEndThickness])
+        {
+            tcy([0,0,guideFromBoltFace+10], d=100, h=200);
+            tcy([0,0,handleFromBoltFace-3-200], d=100, h=200);
+        }
+    }
 }
