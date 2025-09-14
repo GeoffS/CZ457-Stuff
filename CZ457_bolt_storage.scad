@@ -43,7 +43,7 @@ module itemModule()
 	difference()
     {
         // Exterior:
-        simpleChamferedCylinderDoubleEnded(d=holderOD, h=holderLength, cz=holderEndCZ);
+        exterior();
         
         translate([0,0,holderEndThickness])
         { 
@@ -66,6 +66,26 @@ module itemModule()
         // Chamfer at entry of bolt:
         translate([0,0,holderLength-boltOD/2-holderEntryCZ]) cylinder(d2=30, d1=0, h=15);
     }
+
+    // Friction nubs on guide:
+    nubDia = 8;
+    nubExposure = 0.3;
+    for(nubOffsetZ = [10, 20, 30, 40]) intersection() 
+    {
+        exterior();
+        rotate([0,0,guideOffsetFromHandle_deg]) 
+            doubleY() translate([0, handleSlotWidth/2+nubDia/2-nubExposure, holderLength - nubOffsetZ])
+                difference()
+                {
+                    tsp([((holderOD-holderWallThickness)/2)-0.7,0,0], d=nubDia);
+                    tcu([-50,-nubDia/2+nubExposure+nothing,-50], 100);
+                }
+    }
+}
+
+module exterior()
+{
+    simpleChamferedCylinderDoubleEnded(d=holderOD, h=holderLength, cz=holderEndCZ);
 }
 
 module slotEntryChamfer(angle_deg)
@@ -75,7 +95,8 @@ module slotEntryChamfer(angle_deg)
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -10], 400);
+	// tcu([-200, -400-d, -10], 400);
+    // rotate([0,0,guideOffsetFromHandle_deg]) tcu([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
