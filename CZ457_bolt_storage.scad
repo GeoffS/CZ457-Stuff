@@ -58,11 +58,19 @@ module itemModule()
         }
 
         // Chamfer at entry of holder-slot:
-        translate([0,0,holderLength-handleSlotWidth/2-holderEntryCZ]) rotate([0,0,guideOffsetFromHandle_deg]) rotate([45,0,0]) tcu([0,0,0], 20);
+        slotEntryChamfer(angle_deg=guideOffsetFromHandle_deg);
+        
+        // Chamfer at entry of handle-slot:
+        slotEntryChamfer(angle_deg=0);
 
-        // Entry chamfer:
+        // Chamfer at entry of bolt:
         translate([0,0,holderLength-boltOD/2-holderEntryCZ]) cylinder(d2=30, d1=0, h=15);
     }
+}
+
+module slotEntryChamfer(angle_deg)
+{
+    translate([0,0,holderLength-handleSlotWidth/2-holderEntryCZ]) rotate([0,0,angle_deg]) rotate([45,0,0]) tcu([0,0,0], 20);
 }
 
 module clip(d=0)
