@@ -60,9 +60,9 @@ module itemModule()
             {
                 // Bump at guide-slot:
                 guideBumpBottomZ = handleFromBoltFace + holderEndThickness;
-                guideBumpZ = holderLength - guideBumpBottomZ; //guideFromBoltFace - 2;
+                guideBumpZ = holderLength - guideBumpBottomZ;
                 guideBumpExtraX = 5;
-                guideBumpDia = 27; //20.755;
+                guideBumpDia = 27;
 
                 rotate([0,0,guideOffsetFromHandle_deg]) 
                     translate([holderOD/2-guideBumpDia/2+guideBumpExtraX, 0, holderLength-guideBumpZ]) 
@@ -72,7 +72,7 @@ module itemModule()
                 difference()
                 {
                     exteriorCylinder();
-                    tcy([0,0,guideBumpBottomZ-guideBumpExtraX-400], d=100, h=400);
+                    tcy([0,0,guideBumpBottomZ-guideBumpExtraX-6-400], d=100, h=400);
                 }
             }
         }
