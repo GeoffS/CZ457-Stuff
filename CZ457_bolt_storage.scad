@@ -62,14 +62,11 @@ module itemModule()
                 guideBumpBottomZ = handleFromBoltFace + holderEndThickness;
                 guideBumpZ = holderLength - guideBumpBottomZ; //guideFromBoltFace - 2;
                 guideBumpExtraX = 5;
-                guideBumpDia = 20.755;
+                guideBumpDia = 27; //20.755;
 
                 rotate([0,0,guideOffsetFromHandle_deg]) 
                     translate([holderOD/2-guideBumpDia/2+guideBumpExtraX, 0, holderLength-guideBumpZ]) 
-                    {
                         simpleChamferedCylinder(d=guideBumpDia, h=guideBumpZ, cz=holderEndCZ);
-                        // translate([0,0,-guideBumpDia/2]) cylinder(d2=guideBumpDia, d1=0, h=guideBumpDia/2);
-                    }
                 
                 // Holder exterior for hull() smoothing:
                 difference()
