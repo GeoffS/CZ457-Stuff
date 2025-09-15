@@ -14,7 +14,7 @@
 // along with this program (see the LICENSE file in this directory).  
 // If not, see <https://www.gnu.org/licenses/>.
 
-$fn=360;
+// $fn=360;
 
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCAD_Lib/chamferedCylinders.scad>
@@ -57,11 +57,14 @@ module itemModule()
             exteriorCylinder();
 
             // Bump at guide-slot:
-            guideBumpZ = holderLength - guideFromBoltFace + 4;
+            guideBumpZ = holderLength - guideFromBoltFace - 2;
             guideBumpDia = 20.755;
             rotate([0,0,guideOffsetFromHandle_deg]) 
                 translate([holderOD/2-guideBumpDia/2+5, 0, holderLength-guideBumpZ]) 
-                    simpleChamferedCylinderDoubleEnded(d=guideBumpDia, h=guideBumpZ, cz=holderEndCZ);
+                {
+                    simpleChamferedCylinder(d=guideBumpDia, h=guideBumpZ, cz=holderEndCZ);
+                    translate([0,0,-guideBumpDia/2]) cylinder(d2=guideBumpDia, d1=0, h=guideBumpDia/2);
+                }
         }
         
         translate([0,0,holderEndThickness])
@@ -82,11 +85,11 @@ module itemModule()
 
         // Chamfer at entry of holder-slot:
         intersection() 
-            {
-                // exteriorCylinder();
-                cylinder(d=holderOD, h=holderLength+nothing);
-                slotEntryChamfer(angle_deg=guideOffsetFromHandle_deg);
-            }
+        {
+            // exteriorCylinder();
+            cylinder(d=holderOD, h=holderLength+nothing);
+            slotEntryChamfer(angle_deg=guideOffsetFromHandle_deg);
+        }
         
         // Chamfer at entry of handle-slot:
         slotEntryChamfer(angle_deg=0);
@@ -100,7 +103,6 @@ module itemModule()
     nubExposure = handleSlotWidthExtra/2 + 0.5;
     for(nubOffsetZ = [20, 30, 40])
     {
-        //exteriorCylinder();
         rotate([0,0,guideOffsetFromHandle_deg]) 
             doubleY() translate([0, handleSlotWidth/2+nubDia/2-nubExposure, holderLength - nubOffsetZ])
                 difference()
@@ -124,7 +126,7 @@ module slotEntryChamfer(angle_deg)
 module clip(d=0)
 {
 	// tcu([-200, -400-d, -10], 400);
-    // rotate([0,0,guideOffsetFromHandle_deg]) tcu([-200, -400-d, -10], 400);
+    rotate([0,0,guideOffsetFromHandle_deg]) tcu([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
