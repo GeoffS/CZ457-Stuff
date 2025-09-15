@@ -14,6 +14,8 @@
 // along with this program (see the LICENSE file in this directory).  
 // If not, see <https://www.gnu.org/licenses/>.
 
+$fn=360;
+
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCAD_Lib/chamferedCylinders.scad>
 
@@ -34,7 +36,8 @@ holderOD = 30; //boltOD + holderWallThickness*2;
 holderID = boltOD + 0.3;
 holderEndCZ = 2;
 holderEntryCZ = 2;
-holderLength = boltLength + holderEndThickness;
+holderExtraLength = 2;
+holderLength = boltLength + holderEndThickness + holderExtraLength;
 
 echo(str("holderOD = ", holderOD));
 
@@ -49,7 +52,17 @@ module itemModule()
 	difference()
     {
         // Exterior:
-        exterior();
+        union()
+        {
+            exteriorCylinder();
+
+            // Bump at guide-slot:
+            guideBumpZ = holderLength - guideFromBoltFace + 4;
+            guideBumpDia = 20.755;
+            rotate([0,0,guideOffsetFromHandle_deg]) 
+                translate([holderOD/2-guideBumpDia/2+5, 0, holderLength-guideBumpZ]) 
+                    simpleChamferedCylinderDoubleEnded(d=guideBumpDia, h=guideBumpZ, cz=holderEndCZ);
+        }
         
         translate([0,0,holderEndThickness])
         { 
@@ -60,11 +73,20 @@ module itemModule()
             tcu([0, -handleSlotWidth/2, handleFromBoltFace], [100, handleSlotWidth, 200]);
 
             // Slot for guide:
-            rotate([0,0,guideOffsetFromHandle_deg]) tcu([0, -handleSlotWidth/2, guideFromBoltFace], [100, handleSlotWidth, 200]);
+            intersection() 
+            {
+                exteriorCylinder();
+                rotate([0,0,guideOffsetFromHandle_deg]) tcu([0, -handleSlotWidth/2, guideFromBoltFace], [100, handleSlotWidth, 200]);
+            }
         }
 
         // Chamfer at entry of holder-slot:
-        slotEntryChamfer(angle_deg=guideOffsetFromHandle_deg);
+        intersection() 
+            {
+                // exteriorCylinder();
+                cylinder(d=holderOD, h=holderLength+nothing);
+                slotEntryChamfer(angle_deg=guideOffsetFromHandle_deg);
+            }
         
         // Chamfer at entry of handle-slot:
         slotEntryChamfer(angle_deg=0);
@@ -78,7 +100,7 @@ module itemModule()
     nubExposure = handleSlotWidthExtra/2 + 0.5;
     for(nubOffsetZ = [20, 30, 40])
     {
-        //exterior();
+        //exteriorCylinder();
         rotate([0,0,guideOffsetFromHandle_deg]) 
             doubleY() translate([0, handleSlotWidth/2+nubDia/2-nubExposure, holderLength - nubOffsetZ])
                 difference()
@@ -89,7 +111,7 @@ module itemModule()
     }
 }
 
-module exterior()
+module exteriorCylinder()
 {
     simpleChamferedCylinderDoubleEnded(d=holderOD, h=holderLength, cz=holderEndCZ);
 }
