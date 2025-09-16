@@ -18,6 +18,7 @@
 
 include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCAD_Lib/chamferedCylinders.scad>
+include <../OpenSCAD_Lib/torus.scad>
 
 makeHolder = false;
 makeTest = false;
@@ -30,7 +31,9 @@ handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
 
-holderEndThickness = 3;
+bungieHoldDia = 3.5;
+holderEndThickness = 3 + bungieHoldDia + 3;
+bungieHoleCtrZ = 3 + 1 + bungieHoldDia/2;
 
 holderOD = 30; //boltOD + holderWallThickness*2;
 holderID = boltOD + 0.3;
@@ -106,6 +109,19 @@ module itemModule()
 
         // Chamfer at entry of bolt:
         translate([0,0,holderLength-boltOD/2-holderEntryCZ]) cylinder(d2=30, d1=0, h=15);
+
+        // Holes for bungie;
+        doubleX() translate([2+bungieHoldDia, 0, bungieHoleCtrZ])
+        {
+            rotate([-90,0,0]) tcy([0,0,-nothing], d=bungieHoldDia, h=100);
+            od = 36;
+            translate([0,0,od/2-bungieHoldDia/2]) rotate([0,90,0]) difference()
+            {
+                torus3a(outsideDiameter=od, circleDiameter=bungieHoldDia);
+                tcu([-200,0,-200], 400); // trim back
+                tcu([-400,-200,-200], 400); // trim top
+            }
+        }
     }
 
     // Friction nubs on guide:
