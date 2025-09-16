@@ -122,6 +122,11 @@ module itemModule()
                 tcu([-400,-200,-200], 400); // trim top
             }
         }
+
+        // Bungie hole chamfers:
+        // WARNING: All MAGIC, all the time!!!
+        // EVERYTHING!!! I'm not kidding...
+        doubleY() rotate([0,0,25]) translate([-holderOD/2-1.5, 0, bungieHoleCtrZ]) rotate([0,0,-7]) rotate([0,90,0]) cylinder(d1=10, d2=0, h=5);
     }
 
     // Friction nubs on guide:
@@ -153,6 +158,9 @@ module clip(d=0)
 {
 	// tcu([-200, -400-d, -10], 400);
     // rotate([0,0,guideOffsetFromHandle_deg]) tcu([-200, -400-d, -10], 400);
+
+    // tcy([0,0,bungieHoleCtrZ-100], d=100, h=100);
+    // tcy([0,0,20], d=100, h=400);
 }
 
 if(developmentRender)
