@@ -32,7 +32,7 @@ guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
 
 bungieHoldDia = 4.2;
-holderEndThickness = 3 + bungieHoldDia + 4.5;
+holderEndThickness = 3 + bungieHoldDia + 7;
 bungieHoleCtrX = 2 + bungieHoldDia;
 bungieHoleCtrZ = 3 + 1 + bungieHoldDia/2;
 
@@ -132,7 +132,7 @@ module itemModule()
 
     // Friction nubs on guide:
     nubDia = 8;
-    nubExposure = handleSlotWidthExtra/2 + 0.40;
+    nubExposure = handleSlotWidthExtra/2 + 0.42;
     for(nubOffsetZ = [20, 30, 40])
     {
         rotate([0,0,guideOffsetFromHandle_deg]) 
@@ -163,7 +163,7 @@ module clip(d=0)
     // tcy([0,0,bungieHoleCtrZ-100], d=100, h=100);
     // tcy([0,0,20], d=100, h=400);
 
-    // tcu([-200, bungieHoleCtrX-400-d, -10], 400);
+    tcu([-200, bungieHoleCtrX-400-d, -10], 400);
 }
 
 if(developmentRender)
