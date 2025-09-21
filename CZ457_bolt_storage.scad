@@ -32,10 +32,11 @@ guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
 
 bungieHoldDia = 3.8;
-holderEndThickness = 3 + bungieHoldDia + 3;
+holderEndThickness = 3 + bungieHoldDia + 4.5;
+bungieHoleCtrX = 2 + bungieHoldDia;
 bungieHoleCtrZ = 3 + 1 + bungieHoldDia/2;
 
-holderOD = 30; //boltOD + holderWallThickness*2;
+holderOD = 30;
 holderID = boltOD + 0.3;
 holderEndCZ = 2;
 holderEntryCZ = 2;
@@ -111,7 +112,7 @@ module itemModule()
         translate([0,0,holderLength-boltOD/2-holderEntryCZ]) cylinder(d2=30, d1=0, h=15);
 
         // Holes for bungie;
-        rotate([0,0,90]) doubleX() translate([2+bungieHoldDia, 0, bungieHoleCtrZ])
+        rotate([0,0,90]) doubleX() translate([bungieHoleCtrX, 0, bungieHoleCtrZ])
         {
             rotate([-90,0,0]) tcy([0,0,-nothing], d=bungieHoldDia, h=100);
             od = 36;
@@ -161,6 +162,8 @@ module clip(d=0)
 
     // tcy([0,0,bungieHoleCtrZ-100], d=100, h=100);
     // tcy([0,0,20], d=100, h=400);
+
+    // tcu([-200, bungieHoleCtrX-400-d, -10], 400);
 }
 
 if(developmentRender)
