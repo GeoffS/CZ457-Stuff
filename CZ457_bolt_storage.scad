@@ -37,7 +37,7 @@ bungieHoleCtrX = 2 + bungieHoldDia;
 bungieHoleCtrZ = 3 + 1 + bungieHoldDia/2;
 
 holderOD = 30;
-holderID = boltOD + 0.3;
+holderID = boltOD + 0.25;
 holderEndCZ = 2;
 holderEntryCZ = 2;
 holderExtraLength = 2;
