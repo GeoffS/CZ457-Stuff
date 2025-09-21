@@ -31,7 +31,7 @@ handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
 
-bungieHoldDia = 3.8;
+bungieHoldDia = 4.2;
 holderEndThickness = 3 + bungieHoldDia + 4.5;
 bungieHoleCtrX = 2 + bungieHoldDia;
 bungieHoleCtrZ = 3 + 1 + bungieHoldDia/2;
@@ -127,7 +127,7 @@ module itemModule()
         // Bungie hole chamfers:
         // WARNING: All MAGIC, all the time!!!
         // EVERYTHING!!! I'm not kidding...
-        doubleY() rotate([0,0,25]) translate([-holderOD/2-1.5, 0, bungieHoleCtrZ]) rotate([0,0,-7]) rotate([0,90,0]) cylinder(d1=10, d2=0, h=5);
+        doubleY() rotate([0,0,27]) translate([-holderOD/2-1.4, 0, bungieHoleCtrZ]) rotate([0,0,-7]) rotate([0,90,0]) cylinder(d1=10, d2=0, h=5);
     }
 
     // Friction nubs on guide:
