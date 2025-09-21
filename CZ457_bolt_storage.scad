@@ -132,7 +132,7 @@ module itemModule()
 
     // Friction nubs on guide:
     nubDia = 8;
-    nubExposure = handleSlotWidthExtra/2 + 0.35;
+    nubExposure = handleSlotWidthExtra/2 + 0.40;
     for(nubOffsetZ = [20, 30, 40])
     {
         rotate([0,0,guideOffsetFromHandle_deg]) 
