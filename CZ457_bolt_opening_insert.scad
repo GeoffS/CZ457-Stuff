@@ -40,6 +40,8 @@ handleLugY = 7.8;
 handleLugZ = 11.5;
 handleLugCZ = 0.4;
 
+guideLugZ = 35;
+
 handleFrontToFrontOfinsert = 64;
 handleRearToFrontOfinsert = handleFrontToFrontOfinsert + handleLugZ;
 
@@ -95,7 +97,19 @@ module middlePiece()
             // Guide:
             difference()
             {
+                // translate([0,0,-lugDia/2+handleLugZ]) rotate([0,90,0]) simpleChamferedCylinder(d=lugDia, h=handleLugX, cz=handleLugCZ*1.4);
+                tcu([0, -handleLugY/2, 0], [handleLugX, handleLugY, guideLugZ]);
 
+                // Chamfer the front/top outside edge:
+                translate([handleLugX, 0, guideLugZ]) rotate([0,-45,0]) tcu([-handleLugCZ, -10, -10], 20);
+                // tcy([0,0,-100], d=100, h=100);
+                doubleY() translate([0, handleLugY/2, 0]) rotate([-45,0,0]) tcu([-1, -handleLugCZ, -10], 20);
+                // Chamfer the front/top side edges:
+                doubleY() translate([0, handleLugY/2, guideLugZ]) rotate([45,0,0]) tcu([-1, -handleLugCZ, -10], 20);
+                // Chamfer the outer corners:
+                doubleY() translate([handleLugX, handleLugY/2, 0]) rotate([0,0,-45]) tcu([-10, -handleLugCZ, -1], 100);
+                // Chamfer the back/bottom outside edge:
+                translate([handleLugX, 0, 0]) rotate([0,45,0]) tcu([-handleLugCZ, -10, -10], 20);
             }
         }
 
