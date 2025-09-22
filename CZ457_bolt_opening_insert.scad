@@ -40,15 +40,19 @@ handleLugY = 7.8;
 handleLugZ = 11.5;
 handleLugCZ = 0.4;
 
-guideLugZ = 35;
-
 handleFrontToFrontOfinsert = 64;
 handleRearToFrontOfinsert = handleFrontToFrontOfinsert + handleLugZ;
 
-middlePieceZ = 53;
+middlePieceZ = 30;
 
-m4ThreadedHoldDia = 4;
-m4ClearanceHoleDia = 4.3;
+guideLugZ = middlePieceZ;
+
+threadedHoldDia = 3.9;
+clearanceHoleDia = 4.1;
+headRecessDia = 7.7; //7.6;
+headRecessZ = 10;
+springRecessDia = 5; //4.95;
+springRecessZ = headRecessZ + 8.5;
 
 module forwardPiece()
 {
@@ -79,20 +83,21 @@ module forwardPiece()
             }
         }
 
-        // M4 Screw hole:
-        tcy([0,0,-50+15], d=m4ThreadedHoldDia, h=50);
+        // Screw hole:
+        tcy([0,0,-50+15], d=threadedHoldDia, h=50);
         // Chamfer:
-        translate([0,0,-5+m4ThreadedHoldDia/2+0.6]) cylinder(d1=10, d2=0, h=5);
+        translate([0,0,-5+threadedHoldDia/2+0.6]) cylinder(d1=10, d2=0, h=5);
     }
 }
 
 module middlePiece()
 {
+    rearCZ = 3;
     difference()
     {
         union()
         {
-            cylinder(d=rearBoltOD, h=middlePieceZ);
+            translate([0,0,middlePieceZ]) mirror([0,0,1]) simpleChamferedCylinder(d=rearBoltOD, h=middlePieceZ, cz=rearCZ);
 
             // Guide:
             difference()
@@ -109,14 +114,25 @@ module middlePiece()
                 // Chamfer the outer corners:
                 doubleY() translate([handleLugX, handleLugY/2, 0]) rotate([0,0,-45]) tcu([-10, -handleLugCZ, -1], 100);
                 // Chamfer the back/bottom outside edge:
-                translate([handleLugX, 0, 0]) rotate([0,45,0]) tcu([-handleLugCZ, -10, -10], 20);
+                translate([handleLugX, 0, 0]) rotate([0,45,0]) 
+                {
+                    tcu([-rearCZ*0.707, -10, -10], 20);
+                    // Chamfer the outer corners:
+                    doubleY() translate([0, handleLugY/2, 0]) rotate([0,0,-45]) tcu([-10, -handleLugCZ-1.5, -10], 100);
+                }
             }
         }
 
         // Bolt hole:
-        tcy([0,0,-1], d=m4ClearanceHoleDia, h=200);
-        // Chamfers:
-        translate([0,0,middlePieceZ/2]) doubleZ() translate([0, 0, middlePieceZ/2-m4ClearanceHoleDia/2-0.6]) cylinder(d2=10, d1=0, h=5);
+        tcy([0,0,-1], d=clearanceHoleDia, h=200);
+        // Head recess:
+        tcy([0,0,-1], d=headRecessDia, h=headRecessZ+1);
+        // Spring recess:
+        tcy([0,0,0], d=springRecessDia, h=springRecessZ);
+        // Bottom Chamfer:
+        translate([0, 0, -10+headRecessDia/2+0.6]) cylinder(d1=20, d2=0, h=10);
+        // Bottom Chamfer:
+        translate([0, 0, middlePieceZ-clearanceHoleDia/2-0.6]) cylinder(d2=10, d1=0, h=5);
     }
 }
 
@@ -127,7 +143,7 @@ module aftPiece()
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -10], 400);
+	tc([-200, -400-d, -100], 400);
 }
 
 if(developmentRender)
@@ -139,7 +155,7 @@ if(developmentRender)
 else
 {
 	if(makeForwardPiece) forwardPiece();
-    if(makeMiddlePiece) middlePiece();
+    if(makeMiddlePiece) mirror([0,0,1]) middlePiece();
     if(makeAftPiece) aftPiece();
 }
 
