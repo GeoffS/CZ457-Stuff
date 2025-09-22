@@ -20,7 +20,7 @@ include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCAD_Lib/chamferedCylinders.scad>
 include <../OpenSCAD_Lib/torus.scad>
 
-boltOD = 18;
+// boltOD = 18;
 boltLength = 133;
 handleWidth = 8;
 guideHeight = 6.6;
@@ -28,9 +28,12 @@ guideHeight = 6.6;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
 
-handleLugZ = 12;
-handleLugY = 7.8;
+forwardBoltOD = 17.5;
+rearBoltOD = 18;
+
 handleLugX = 25 - 9;
+handleLugY = 7.8;
+handleLugZ = 11.5;
 
 handleFrontToFrontOfinsert = 64;
 handleRearToFrontOfinsert = handleFrontToFrontOfinsert + handleLugZ;
@@ -41,7 +44,7 @@ module itemModule()
     {
         union()
         {
-            simpleChamferedCylinder(d=boltOD, h=handleRearToFrontOfinsert, cz=2);
+            simpleChamferedCylinder(d=forwardBoltOD, h=handleRearToFrontOfinsert, cz=2);
 
             // Lug:
             difference()
@@ -73,7 +76,7 @@ module itemModule()
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -10], 400);
+	// tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
