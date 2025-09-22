@@ -38,11 +38,15 @@ rearBoltOD = 18;
 handleLugX = 25 - 9;
 handleLugY = 7.8;
 handleLugZ = 11.5;
+handleLugCZ = 0.4;
 
 handleFrontToFrontOfinsert = 64;
 handleRearToFrontOfinsert = handleFrontToFrontOfinsert + handleLugZ;
 
-midPieceZ = 53;
+middlePieceZ = 53;
+
+m4ThreadedHoldDia = 4;
+m4ClearanceHoleDia = 4.3;
 
 module forwardPiece()
 {
@@ -55,28 +59,25 @@ module forwardPiece()
             // Lug:
             difference()
             {
-                
-                cz = 0.4;
                 lugDia=25;
-                translate([0,0,-lugDia/2+handleLugZ]) rotate([0,90,0]) simpleChamferedCylinder(d=lugDia, h=handleLugX, cz=cz*1.4);
+                translate([0,0,-lugDia/2+handleLugZ]) rotate([0,90,0]) simpleChamferedCylinder(d=lugDia, h=handleLugX, cz=handleLugCZ*1.4);
 
                 // Trim the width:
                 doubleY() tcu([-100, handleLugY/2, -100], 200);
                 // Trim the back/bottom:
                 tcy([0,0,-100], d=100, h=100);
                 // Chamfer the back/bottom side edges:
-                doubleY() translate([0, handleLugY/2, 0]) rotate([-45,0,0]) tcu([-1, -cz, -10], 20);
+                doubleY() translate([0, handleLugY/2, 0]) rotate([-45,0,0]) tcu([-1, -handleLugCZ, -10], 20);
                 // Chamfer the front/top side edges:
-                doubleY() translate([0, handleLugY/2, handleLugZ-0.65]) rotate([45,0,0]) tcu([-1, -cz, -10], 20);
+                doubleY() translate([0, handleLugY/2, handleLugZ-0.65]) rotate([45,0,0]) tcu([-1, -handleLugCZ, -10], 20);
                 // Chamfer the outer corners:
-                doubleY() translate([handleLugX, handleLugY/2, 0]) rotate([0,0,-45]) tcu([-10, -cz, -1], 20);
+                doubleY() translate([handleLugX, handleLugY/2, 0]) rotate([0,0,-45]) tcu([-10, -handleLugCZ, -1], 20);
                 // Chamfer the back/bottom outside edge:
-                translate([handleLugX, 0, 0]) rotate([0,45,0]) tcu([-cz, -10, -10], 20);
+                translate([handleLugX, 0, 0]) rotate([0,45,0]) tcu([-handleLugCZ, -10, -10], 20);
             }
         }
 
         // M4 Screw hole:
-        m4ThreadedHoldDia = 4;
         tcy([0,0,-50+15], d=m4ThreadedHoldDia, h=50);
         // Chamfer:
         translate([0,0,-5+m4ThreadedHoldDia/2+0.6]) cylinder(d1=10, d2=0, h=5);
@@ -85,7 +86,24 @@ module forwardPiece()
 
 module middlePiece()
 {
+    difference()
+    {
+        union()
+        {
+            cylinder(d=rearBoltOD, h=middlePieceZ);
 
+            // Guide:
+            difference()
+            {
+
+            }
+        }
+
+        // Bolt hole:
+        tcy([0,0,-1], d=m4ClearanceHoleDia, h=200);
+        // Chamfers:
+        translate([0,0,middlePieceZ/2]) doubleZ() translate([0, 0, middlePieceZ/2-m4ClearanceHoleDia/2-0.6]) cylinder(d2=10, d1=0, h=5);
+    }
 }
 
 module aftPiece()
