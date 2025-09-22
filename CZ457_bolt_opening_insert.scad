@@ -20,6 +20,10 @@ include <../OpenSCAD_Lib/MakeInclude.scad>
 include <../OpenSCAD_Lib/chamferedCylinders.scad>
 include <../OpenSCAD_Lib/torus.scad>
 
+makeForwardPiece = false;
+makeMiddlePiece = false;
+makeAftPiece = false;
+
 // boltOD = 18;
 boltLength = 133;
 handleWidth = 8;
@@ -38,7 +42,9 @@ handleLugZ = 11.5;
 handleFrontToFrontOfinsert = 64;
 handleRearToFrontOfinsert = handleFrontToFrontOfinsert + handleLugZ;
 
-module itemModule()
+midPieceZ = 53;
+
+module forwardPiece()
 {
 	difference() 
     {
@@ -77,6 +83,16 @@ module itemModule()
     }
 }
 
+module middlePiece()
+{
+
+}
+
+module aftPiece()
+{
+
+}
+
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
@@ -84,9 +100,24 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule();
+    // displayPieces(forward);
+    displayPieces(middle);
+    // displayPieces(aft);
 }
 else
 {
-	itemModule();
+	if(makeForwardPiece) forwardPiece();
+    if(makeMiddlePiece) middlePiece();
+    if(makeAftPiece) aftPiece();
 }
+
+module displayPieces(x)
+{
+    display() translate([-40+x,0,0]) forwardPiece();
+    display() translate([    x,0,0]) middlePiece();
+    display() translate([ 40+x,0,0]) aftPiece();
+}
+
+forward = 40;
+middle = 0;
+aft = -40;
