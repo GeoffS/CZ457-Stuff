@@ -49,16 +49,19 @@ module itemModule()
             // Lug:
             difference()
             {
+                
+                cz = 0.4;
                 lugDia=25;
-                translate([0,0,-lugDia/2+handleLugZ]) rotate([0,90,0]) simpleChamferedCylinder(d=lugDia, h=handleLugX, cz=1);
+                translate([0,0,-lugDia/2+handleLugZ]) rotate([0,90,0]) simpleChamferedCylinder(d=lugDia, h=handleLugX, cz=cz*1.4);
 
                 // Trim the width:
                 doubleY() tcu([-100, handleLugY/2, -100], 200);
                 // Trim the back/bottom:
                 tcy([0,0,-100], d=100, h=100);
-                cz = 0.4;
                 // Chamfer the back/bottom side edges:
                 doubleY() translate([0, handleLugY/2, 0]) rotate([-45,0,0]) tcu([-1, -cz, -10], 20);
+                // Chamfer the front/top side edges:
+                doubleY() translate([0, handleLugY/2, handleLugZ-0.65]) rotate([45,0,0]) tcu([-1, -cz, -10], 20);
                 // Chamfer the outer corners:
                 doubleY() translate([handleLugX, handleLugY/2, 0]) rotate([0,0,-45]) tcu([-10, -cz, -1], 20);
                 // Chamfer the back/bottom outside edge:
