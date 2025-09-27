@@ -43,6 +43,7 @@ handleLugCZ = 0.4;
 handleFrontToFrontOfinsert = 64;
 handleRearToFrontOfinsert = handleFrontToFrontOfinsert + handleLugZ;
 
+forwardPieceZ = 62;
 aftPieceZ = 53;
 
 guideLugZ = aftPieceZ;
@@ -60,31 +61,26 @@ module forwardPiece()
     {
         union()
         {
-            simpleChamferedCylinder(d=forwardBoltOD, h=62, cz=2);
-
-            // // Lug:
-            // difference()
-            // {
-            //     lugDia=25;
-            //     translate([0,0,-lugDia/2+handleLugZ]) rotate([0,90,0]) simpleChamferedCylinder(d=lugDia, h=handleLugX, cz=handleLugCZ*1.4);
-
-            //     // Trim the width:
-            //     doubleY() tcu([-100, handleLugY/2, -100], 200);
-            //     // Trim the back/bottom:
-            //     tcy([0,0,-100], d=100, h=100);
-            //     // Chamfer the back/bottom side edges:
-            //     doubleY() translate([0, handleLugY/2, 0]) rotate([-45,0,0]) tcu([-1, -handleLugCZ, -10], 20);
-            //     // Chamfer the front/top side edges:
-            //     doubleY() translate([0, handleLugY/2, handleLugZ-0.65]) rotate([45,0,0]) tcu([-1, -handleLugCZ, -10], 20);
-            //     // Chamfer the outer corners:
-            //     doubleY() translate([handleLugX, handleLugY/2, 0]) rotate([0,0,-45]) tcu([-10, -handleLugCZ, -1], 20);
-            //     // Chamfer the back/bottom outside edge:
-            //     translate([handleLugX, 0, 0]) rotate([0,45,0]) tcu([-handleLugCZ, -10, -10], 20);
-            // }
+            simpleChamferedCylinder(d=forwardBoltOD, h=forwardPieceZ, cz=2);
         }
 
+        // Top cutaway:
+        cutY = forwardBoltOD-10.5;
+        cutZ = forwardPieceZ - 46.3;
+        cutDia = 20;
+
+        cutOffsetY = -forwardBoltOD/2 + cutY;
+
+        tcu([-100, cutOffsetY-200, cutZ], 200);
+        translate([0, cutOffsetY-cutDia/2, cutZ]) rotate([0,90,0]) tcy([0,0,-100], d=cutDia, h=200);
+
+        // Bottom slot:
+        slotX= 3.8;
+        slotY = 2;
+        tcu([-slotX/2, forwardBoltOD/2-slotY, -1], [slotX, 20, 200]);
+
         // Screw hole:
-        tcy([0,0,-50+15], d=threadedHoldDia, h=50);
+        tcy([0,0,-50+10], d=threadedHoldDia, h=50);
         // Chamfer:
         translate([0,0,-5+threadedHoldDia/2+0.6]) cylinder(d1=10, d2=0, h=5);
     }
@@ -174,13 +170,13 @@ module aftPiece()
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -100], 400);
+	// tc([-200, -400-d, -100], 400);
 }
 
 if(developmentRender)
 {
     // displayPieces(forward);
-    displayPieces(middle);
+    displayPieces(forward);
     // displayPieces(aft);
 }
 else
