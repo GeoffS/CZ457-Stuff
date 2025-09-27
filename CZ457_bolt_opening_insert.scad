@@ -44,16 +44,19 @@ handleFrontToFrontOfinsert = 64;
 handleRearToFrontOfinsert = handleFrontToFrontOfinsert + handleLugZ;
 
 forwardPieceZ = 62;
+middlePieceZ = 16;
 aftPieceZ = 53;
 
 guideLugZ = aftPieceZ;
 
-threadedHoldDia = 3.9;
-clearanceHoleDia = 4.1;
-headRecessDia = 7.7; //7.6;
-headRecessZ = 10;
-springRecessDia = 5; //4.95;
+threadedHoldDia = 4.5; //3.9;
+clearanceHoleDia = 4.99; //4.1;
+headRecessDia = 9.4; //7.7; //7.6;
+headRecessZ = 26;
+springRecessDia = 6.4; //5; //4.95;
 springRecessZ = headRecessZ + 8.5;
+
+threadedHoleZ = 8;
 
 module forwardPiece()
 {
@@ -80,7 +83,7 @@ module forwardPiece()
         tcu([-slotX/2, forwardBoltOD/2-slotY, -1], [slotX, 20, 200]);
 
         // Screw hole:
-        tcy([0,0,-50+8], d=threadedHoldDia, h=50);
+        tcy([0,0,-50+threadedHoleZ], d=threadedHoldDia, h=50);
         // Chamfer:
         translate([0,0,-5+threadedHoldDia/2+0.6]) cylinder(d1=10, d2=0, h=5);
     }
@@ -92,7 +95,7 @@ module middlePiece()
     {
         union()
         {
-            cylinder(d=forwardBoltOD, h=16);
+            cylinder(d=forwardBoltOD, h=middlePieceZ);
 
             // Lug:
             difference()
@@ -170,15 +173,22 @@ module aftPiece()
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -100], 400);
-    tcu([0,-200,-100], 400);
+	tcu([-200, -400-d, -100], 400);
+    // tcu([0,-200,-100], 400);
 }
 
 if(developmentRender)
 {
     // displayPieces(forward);
-    displayPieces(forward);
+    // displayPieces(forward);
     // displayPieces(aft);
+
+    dz = 0.05;
+    display()                                               rotate([0,0,0]) aftPiece();
+    display() translate([0,0,aftPieceZ+dz])                 rotate([0,0,60]) middlePiece();
+    display() translate([0,0,aftPieceZ+dz+middlePieceZ+dz]) rotate([0,0,180]) forwardPiece();
+    screwLength = 50;
+    displayGhost() translate([0,0,aftPieceZ+dz+middlePieceZ+dz+threadedHoleZ-1-screwLength]) cylinder(d=4.8, h=screwLength);
 }
 else
 {
