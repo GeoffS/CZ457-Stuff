@@ -80,7 +80,7 @@ module forwardPiece()
         tcu([-slotX/2, forwardBoltOD/2-slotY, -1], [slotX, 20, 200]);
 
         // Screw hole:
-        tcy([0,0,-50+10], d=threadedHoldDia, h=50);
+        tcy([0,0,-50+8], d=threadedHoldDia, h=50);
         // Chamfer:
         translate([0,0,-5+threadedHoldDia/2+0.6]) cylinder(d1=10, d2=0, h=5);
     }
@@ -171,6 +171,7 @@ module aftPiece()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -100], 400);
+    tcu([0,-200,-100], 400);
 }
 
 if(developmentRender)
