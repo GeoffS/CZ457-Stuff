@@ -72,7 +72,7 @@ module forwardPiece()
         cutOffsetY = -forwardBoltOD/2 + cutY;
         echo(str("cutOffsetY = ", cutOffsetY));
 
-        ribX = 3.4;
+        ribX = 5.3; //3.4;
         ribY = 3.0;
 
         difference()
@@ -94,6 +94,15 @@ module forwardPiece()
             chamferIndent = 0.6;
             translate([0, cutOffsetY-ribY, 0]) rotate([45,0,0]) tcu([-10, -10, -chamferIndent], 20);
             doubleX() translate([ribX/2, cutOffsetY, 0]) rotate([0,45,0]) tcu([-10, -20, -chamferIndent], 20);
+        }
+
+        // Ejector slot:
+        ejectorX = 2;
+        ejectorY = 2;
+        translate([ribX/2-ejectorX+nothing,0, 2.5])
+        {
+            tcu([0, -10+cutOffsetY+ejectorY, cutZ], [ejectorX, 10, 100]);
+            translate([0, cutOffsetY+ejectorY-cutDia/2, cutZ]) rotate([0,90,0]) tcy([0,0,0], d=cutDia, h=ejectorX);
         }
 
         // Bottom slot:
