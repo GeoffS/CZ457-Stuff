@@ -193,7 +193,7 @@ module aftPiece()
 module clip(d=0)
 {
 	// tcu([-200, -400-d, -100], 400);
-    // tcu([0,-200,-100], 400);
+    // tcu([-d,-200,-100], 400);
 }
 
 if(developmentRender)
