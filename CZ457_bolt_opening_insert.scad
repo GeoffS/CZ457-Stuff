@@ -62,10 +62,7 @@ module forwardPiece()
 {
 	difference() 
     {
-        union()
-        {
-            simpleChamferedCylinder(d=forwardBoltOD, h=forwardPieceZ, cz=2);
-        }
+        simpleChamferedCylinder(d=forwardBoltOD, h=forwardPieceZ, cz=2);
 
         // Top cutaway:
         cutY = forwardBoltOD-10.5;
@@ -73,9 +70,31 @@ module forwardPiece()
         cutDia = 20;
 
         cutOffsetY = -forwardBoltOD/2 + cutY;
+        echo(str("cutOffsetY = ", cutOffsetY));
 
-        tcu([-100, cutOffsetY-200, cutZ], 200);
-        translate([0, cutOffsetY-cutDia/2, cutZ]) rotate([0,90,0]) tcy([0,0,-100], d=cutDia, h=200);
+        ribX = 3.4;
+        ribY = 3.0;
+
+        difference()
+        {
+            // Remove the flat portion:
+            union()
+            {
+                tcu([-100, cutOffsetY-200, cutZ], 200);
+                translate([0, cutOffsetY-cutDia/2, cutZ]) rotate([0,90,0]) tcy([0,0,-100], d=cutDia, h=200);
+            }
+
+            // Add in the rib:
+            tcu([-ribX/2, cutOffsetY-ribY, 0], [ribX, 100, 100]);
+        }
+
+        // Chamfer the rib:
+        translate([0,0,forwardPieceZ])
+        {
+            chamferIndent = 0.6;
+            translate([0, cutOffsetY-ribY, 0]) rotate([45,0,0]) tcu([-10, -10, -chamferIndent], 20);
+            doubleX() translate([ribX/2, cutOffsetY, 0]) rotate([0,45,0]) tcu([-10, -20, -chamferIndent], 20);
+        }
 
         // Bottom slot:
         slotX= 3.8;
@@ -173,22 +192,25 @@ module aftPiece()
 
 module clip(d=0)
 {
-	tcu([-200, -400-d, -100], 400);
+	// tcu([-200, -400-d, -100], 400);
     // tcu([0,-200,-100], 400);
 }
 
 if(developmentRender)
 {
+    display() forwardPiece();
+
+
     // displayPieces(forward);
-    // displayPieces(forward);
+    // displayPieces(middle);
     // displayPieces(aft);
 
-    dz = 0.05;
-    display()                                               rotate([0,0,0]) aftPiece();
-    display() translate([0,0,aftPieceZ+dz])                 rotate([0,0,60]) middlePiece();
-    display() translate([0,0,aftPieceZ+dz+middlePieceZ+dz]) rotate([0,0,180]) forwardPiece();
-    screwLength = 50;
-    displayGhost() translate([0,0,aftPieceZ+dz+middlePieceZ+dz+threadedHoleZ-1-screwLength]) cylinder(d=4.8, h=screwLength);
+    // dz = 0.05;
+    // display()                                               rotate([0,0,0]) aftPiece();
+    // display() translate([0,0,aftPieceZ+dz])                 rotate([0,0,60]) middlePiece();
+    // display() translate([0,0,aftPieceZ+dz+middlePieceZ+dz]) rotate([0,0,180]) forwardPiece();
+    // screwLength = 50;
+    // displayGhost() translate([0,0,aftPieceZ+dz+middlePieceZ+dz+threadedHoleZ-1-screwLength]) cylinder(d=4.8, h=screwLength);
 }
 else
 {
