@@ -105,6 +105,10 @@ module forwardPiece()
             translate([0, cutOffsetY+ejectorY-cutDia/2, cutZ]) rotate([0,90,0]) tcy([0,0,0], d=cutDia, h=ejectorX);
         }
 
+        // Bolt retainer cutout:
+        retainerX = 2;
+        tcu([forwardBoltOD/2-retainerX, 0-100, -20], 200);
+
         // Bottom slot:
         slotX= 3.8;
         slotY = 2;
