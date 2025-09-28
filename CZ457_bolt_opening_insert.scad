@@ -72,8 +72,8 @@ module forwardPiece()
         cutOffsetY = -forwardBoltOD/2 + cutY;
         echo(str("cutOffsetY = ", cutOffsetY));
 
-        ribX = 5.3; //3.4;
-        ribY = 3.0;
+        ribX = 4; //5.3; //3.4;
+        ribY = 1.8; //3.0;
 
         difference()
         {
