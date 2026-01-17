@@ -116,25 +116,41 @@ module guideCylinder(extraDia=0)
     tcy([0,0,-1], d=guideCylinderOD+extraDia, h=holderLength+2);
 }
 
+guideBumpTrimAngle1 = 22;
+guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1;
+guideBumpOD = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
+guideBumpCornerDia = 4;
+guideBumpCornerDiaOffsetX = guideBumpOD/2-guideBumpCornerDia/2;
+
 module guideBump()
 {
-    guideBumpTrimAngle1 = 22;
-    guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1;
-
     difference()
     {
         // guideCylinder(extraDia=holderWallThickness);
-        d = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
 
         translate([0, 0, holderLength-guideBumpZ]) 
-            simpleChamferedCylinder(d=d, h=guideBumpZ, cz=holderEndCZ);
+            simpleChamferedCylinder(d=guideBumpOD, h=guideBumpZ, cz=holderEndCZ);
 
         rotate([0,0,guideOffsetFromHandle_deg]) 
         {
             rotate([0,0, guideBumpTrimAngle1]) tcu([-200,   0, -10], 400);
-            rotate([0,0,guideBumpTrimAngle2]) tcu([-200,-400, -10], 400);
+            rotate([0,0, guideBumpTrimAngle2]) tcu([-200,-400, -10], 400);
         }
     }
+
+    // Round the corners:
+    rotate([0,0,guideOffsetFromHandle_deg]) 
+    {
+        guideBumpCorner(a=guideBumpTrimAngle1);
+        guideBumpCorner(a=guideBumpTrimAngle2);
+    }
+}
+
+module guideBumpCorner(a)
+{
+    translate([0, 0, holderLength-guideBumpZ]) 
+            rotate([0,0, a]) translate([guideBumpCornerDiaOffsetX,0,0]) 
+                simpleChamferedCylinderDoubleEnded(d=guideBumpCornerDia, h=guideBumpZ, cz=holderEndCZ);;
 }
 
 module exteriorCylinder()
@@ -149,7 +165,7 @@ module slotEntryChamfer(angle_deg)
 
 module clip(d=0)
 {
-	tcu([-200, -400-d, -10], 400);
+	// tcu([-200, -400-d, -10], 400);
     // rotate([0,0,guideOffsetFromHandle_deg]) tcu([-200, -400-d, -10], 400);
 
     // tcy([0,0,20], d=100, h=400);
