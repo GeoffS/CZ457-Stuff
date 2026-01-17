@@ -31,22 +31,21 @@ handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
 
-holderEndThickness = 4;
+holderWallThickness = 3;
+holderEndThickness = 3;
 
-holderOD = 30;
 holderID = boltOD + 0.25;
-holderEndCZ = 2;
-holderEntryCZ = 2;
+holderOD = holderID + 2*holderWallThickness;
+holderEndCZ = 1.5;
+holderEntryCZ = 1;
 holderExtraLength = 2;
 holderLength = boltLength + holderEndThickness + holderExtraLength;
 
+echo(str("holderID = ", holderID));
 echo(str("holderOD = ", holderOD));
 
 handleSlotWidthExtra = 0.6;
 handleSlotWidth = handleWidth + handleSlotWidthExtra;
-
-holderWallThickness = (holderOD-holderID)/2;
-echo(str("holderWallThickness = ", holderWallThickness));
 
 module itemModule()
 {
