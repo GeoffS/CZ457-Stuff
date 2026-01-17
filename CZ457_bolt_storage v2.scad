@@ -61,8 +61,8 @@ module itemModule()
                 // Bump at guide-slot:
                 guideBumpBottomZ = handleFromBoltFace + holderEndThickness;
                 guideBumpZ = holderLength - guideBumpBottomZ;
-                guideBumpExtraX = 5;
-                guideBumpDia = 27;
+                guideBumpExtraX = 2.2; //5;
+                guideBumpDia = 26; //27;
 
                 rotate([0,0,guideOffsetFromHandle_deg]) 
                     translate([holderOD/2-guideBumpDia/2+guideBumpExtraX, 0, holderLength-guideBumpZ]) 
