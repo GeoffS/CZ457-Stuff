@@ -47,6 +47,14 @@ echo(str("holderOD = ", holderOD));
 handleSlotWidthExtra = 0.2;
 handleSlotWidth = handleWidth + handleSlotWidthExtra;
 
+// Bump at guide-slot:
+guideBumpBottomZ = handleFromBoltFace + holderEndThickness;
+guideBumpZ = holderLength - guideBumpBottomZ;
+guideBumpExtraX = 5;
+guideBumpDia = 26; //27;
+guideCylinderOD = 30;
+
+
 module itemModule()
 {
 	difference()
@@ -58,15 +66,10 @@ module itemModule()
 
             hull()
             {
-                // Bump at guide-slot:
-                guideBumpBottomZ = handleFromBoltFace + holderEndThickness;
-                guideBumpZ = holderLength - guideBumpBottomZ;
-                guideBumpExtraX = 2.2; //5;
-                guideBumpDia = 26; //27;
-
-                rotate([0,0,guideOffsetFromHandle_deg]) 
-                    translate([holderOD/2-guideBumpDia/2+guideBumpExtraX, 0, holderLength-guideBumpZ]) 
-                        simpleChamferedCylinder(d=guideBumpDia, h=guideBumpZ, cz=holderEndCZ);
+                // rotate([0,0,guideOffsetFromHandle_deg]) 
+                //     translate([holderOD/2-guideBumpDia/2+guideBumpExtraX, 0, holderLength-guideBumpZ]) 
+                //         simpleChamferedCylinder(d=guideBumpDia, h=guideBumpZ, cz=holderEndCZ);
+                guideBump();
                 
                 // Holder exterior for hull() smoothing:
                 difference()
@@ -88,7 +91,7 @@ module itemModule()
             // Slot for guide:
             intersection() 
             {
-                exteriorCylinder();
+                guideCylinder();
                 rotate([0,0,guideOffsetFromHandle_deg]) tcu([0, -handleSlotWidth/2, guideFromBoltFace], [100, handleSlotWidth, 200]);
             }
         }
@@ -96,8 +99,7 @@ module itemModule()
         // Chamfer at entry of holder-slot:
         intersection() 
         {
-            // exteriorCylinder();
-            cylinder(d=holderOD, h=holderLength+nothing);
+            guideCylinder();
             slotEntryChamfer(angle_deg=guideOffsetFromHandle_deg);
         }
         
@@ -106,6 +108,32 @@ module itemModule()
 
         // Chamfer at entry of bolt:
         translate([0,0,holderLength-boltOD/2-holderEntryCZ]) cylinder(d2=30, d1=0, h=15);
+    }
+}
+
+module guideCylinder(extraDia=0)
+{
+    tcy([0,0,-1], d=guideCylinderOD+extraDia, h=holderLength+2);
+}
+
+module guideBump()
+{
+    guideBumpTrimAngle1 = 22;
+    guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1;
+
+    difference()
+    {
+        // guideCylinder(extraDia=holderWallThickness);
+        d = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
+
+        translate([0, 0, holderLength-guideBumpZ]) 
+            simpleChamferedCylinder(d=d, h=guideBumpZ, cz=holderEndCZ);
+
+        rotate([0,0,guideOffsetFromHandle_deg]) 
+        {
+            rotate([0,0, guideBumpTrimAngle1]) tcu([-200,   0, -10], 400);
+            rotate([0,0,guideBumpTrimAngle2]) tcu([-200,-400, -10], 400);
+        }
     }
 }
 
@@ -121,7 +149,7 @@ module slotEntryChamfer(angle_deg)
 
 module clip(d=0)
 {
-	// tcu([-200, -400-d, -10], 400);
+	tcu([-200, -400-d, -10], 400);
     // rotate([0,0,guideOffsetFromHandle_deg]) tcu([-200, -400-d, -10], 400);
 
     // tcy([0,0,20], d=100, h=400);
@@ -132,6 +160,7 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
+    // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
 
     display() translate([-60,0,0]) fitTest();
 }
@@ -146,10 +175,13 @@ module fitTest()
     difference()
     {
         itemModule();
-        translate([0,0,holderEndThickness])
-        {
-            tcy([0,0,guideFromBoltFace+13], d=100, h=200);
-            tcy([0,0,handleFromBoltFace-3-200], d=100, h=200);
-        }
+
+        // translate([0,0,holderEndThickness])
+        // {
+        //     tcy([0,0,guideFromBoltFace+13], d=100, h=200);
+        //     tcy([0,0,handleFromBoltFace-3-200], d=100, h=200);
+        // }
+
+        tcy([0,0,-1], d=100, h=68+1);
     }
 }
