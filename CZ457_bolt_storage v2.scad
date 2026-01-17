@@ -140,7 +140,7 @@ module clip(d=0)
 
     // tcy([0,0,20], d=100, h=400);
 
-    tcu([-200, -400+d, -10], 400);
+    // tcu([-200, -400+d, -10], 400);
 }
 
 if(developmentRender)
