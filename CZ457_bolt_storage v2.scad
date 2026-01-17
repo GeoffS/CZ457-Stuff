@@ -44,7 +44,7 @@ holderLength = boltLength + holderEndThickness + holderExtraLength;
 echo(str("holderID = ", holderID));
 echo(str("holderOD = ", holderOD));
 
-handleSlotWidthExtra = 0.6;
+handleSlotWidthExtra = 0.2;
 handleSlotWidth = handleWidth + handleSlotWidthExtra;
 
 module itemModule()
@@ -106,20 +106,6 @@ module itemModule()
 
         // Chamfer at entry of bolt:
         translate([0,0,holderLength-boltOD/2-holderEntryCZ]) cylinder(d2=30, d1=0, h=15);
-    }
-
-    // Friction nubs on guide:
-    nubDia = 8;
-    nubExposure = handleSlotWidthExtra/2 + 0.42;
-    for(nubOffsetZ = [20, 30, 40])
-    {
-        rotate([0,0,guideOffsetFromHandle_deg]) 
-            doubleY() translate([0, handleSlotWidth/2+nubDia/2-nubExposure, holderLength - nubOffsetZ])
-                difference()
-                {
-                    tsp([(holderOD/2+holderID/2)/2-0.7,0,0], d=nubDia);
-                    tcu([-50,-nubDia/2+nubExposure+nothing,-50], 100);
-                }
     }
 }
 
