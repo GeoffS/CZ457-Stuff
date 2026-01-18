@@ -32,6 +32,7 @@ handleBaseLength = 12;
 handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
+guideKength = 40;
 
 holderWallThickness = 3;
 holderEndThickness = 3;
@@ -53,8 +54,9 @@ handleSlotWidth = handleWidth + handleSlotWidthExtra;
 guideBumpBottomZ = handleFromBoltFace + holderEndThickness;
 guideBumpZ = holderLength + holderEndCZ + 1 - guideBumpBottomZ;
 guideBumpExtraX = 5;
-guideBumpDia = 26; //27;
+guideBumpDia = 26;
 guideCylinderOD = 30;
+handelAndGuideCZ = 3;
 
 handleBaseCtrX = boltOD/2 + handleBaseHeight/2;
 
@@ -70,9 +72,6 @@ module itemModule()
 
             hull()
             {
-                // rotate([0,0,guideOffsetFromHandle_deg]) 
-                //     translate([holderOD/2-guideBumpDia/2+guideBumpExtraX, 0, holderLength-guideBumpZ]) 
-                //         simpleChamferedCylinder(d=guideBumpDia, h=guideBumpZ, cz=holderEndCZ);
                 guideBump();
                 
                 // Holder exterior for hull() smoothing:
@@ -90,50 +89,37 @@ module itemModule()
             boltCylinder();
 
             // Slot for bolt-handle:
-            // tcu([0, -handleSlotWidth/2, handleFromBoltFace], [100, handleSlotWidth, 200]);
-            // Slot from top:
             tcu([0, -handleSlotWidth/2, handleFromBoltFace], [100, handleSlotWidth, 200]);
 
-            // Notch at bottom:
+            // Notch at bottom of bolt-handle slot:
             hull()
             {
-                dz = 3;
                 translate([0, -handleSlotWidth/2, handleFromBoltFace]) rotate([0,0,-8]) 
                 {
-                    tcu([0, dz, handleBaseLength+dz], [100, handleSlotWidth-dz, 0.5]);
+                    tcu([0, handelAndGuideCZ, handleBaseLength+handelAndGuideCZ], [100, handleSlotWidth-handelAndGuideCZ, 0.5]);
                     cube([100, handleSlotWidth, handleBaseLength]);
                 }
             }
-
-            // #hull()
-            // {
-            //     intersection()
-            //     {
-            //         hull()
-            //         {
-            //             translate([0,0,-holderEndThickness]) guideBump();
-            //             boltCylinder();
-            //         }
-
-            //         // cylinder(d=boltOD+0.3, h=200);
-            //         difference()
-            //         {
-            //             translate([0, -handleSlotWidth/2, handleFromBoltFace])
-            //             {
-            //                 tcu([0, 0, handleBaseLength+2], [100, handleSlotWidth, 0.5]);
-            //                 rotate([0,0,-8]) cube([100, handleSlotWidth, handleBaseLength]);
-            //             }
-
-            //             // boltCylinder();
-            //         }
-            //     }
-            // }
 
             // Slot for guide:
             intersection() 
             {
                 guideCylinder();
                 rotate([0,0,guideOffsetFromHandle_deg]) tcu([0, -handleSlotWidth/2, guideFromBoltFace], [100, handleSlotWidth, 200]);
+            }
+
+            // Notch at bottom of guide slot:
+            intersection() 
+            {
+                guideCylinder();
+                hull()
+                {
+                    rotate([0,0,guideOffsetFromHandle_deg]) translate([0, -handleSlotWidth/2, guideFromBoltFace]) rotate([0,0,-8]) 
+                    {
+                        tcu([0, handelAndGuideCZ, guideKength+handelAndGuideCZ], [100, handleSlotWidth-handelAndGuideCZ, 0.5]);
+                        cube([100, handleSlotWidth, guideKength]);
+                    }
+                }
             }
         }
 
