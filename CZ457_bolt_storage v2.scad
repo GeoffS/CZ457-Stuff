@@ -26,8 +26,9 @@ makeTest = false;
 boltOD = 18;
 boltLength = 133;
 handleWidth = 8;
-handleBaseLength = 12;
 guideHeight = 6.6;
+handleBaseHeight = guideHeight;
+handleBaseLength = 12;
 handleFromBoltFace = 70;
 guideFromBoltFace = 83;
 guideOffsetFromHandle_deg = 60;
@@ -54,6 +55,8 @@ guideBumpZ = holderLength + holderEndCZ + 1 - guideBumpBottomZ;
 guideBumpExtraX = 5;
 guideBumpDia = 26; //27;
 guideCylinderOD = 30;
+
+handleBaseCtrX = boltOD/2 + handleBaseHeight/2;
 
 
 module itemModule()
@@ -84,10 +87,47 @@ module itemModule()
         translate([0,0,holderEndThickness])
         { 
             // Main recess:
-            cylinder(d=boltOD+0.3, h=200);
+            boltCylinder();
 
             // Slot for bolt-handle:
+            // tcu([0, -handleSlotWidth/2, handleFromBoltFace], [100, handleSlotWidth, 200]);
+            // Slot from top:
             tcu([0, -handleSlotWidth/2, handleFromBoltFace], [100, handleSlotWidth, 200]);
+
+            // Notch at bottom:
+            hull()
+            {
+                dz = 3;
+                translate([0, -handleSlotWidth/2, handleFromBoltFace]) rotate([0,0,-8]) 
+                {
+                    tcu([0, dz, handleBaseLength+dz], [100, handleSlotWidth-dz, 0.5]);
+                    cube([100, handleSlotWidth, handleBaseLength]);
+                }
+            }
+
+            // #hull()
+            // {
+            //     intersection()
+            //     {
+            //         hull()
+            //         {
+            //             translate([0,0,-holderEndThickness]) guideBump();
+            //             boltCylinder();
+            //         }
+
+            //         // cylinder(d=boltOD+0.3, h=200);
+            //         difference()
+            //         {
+            //             translate([0, -handleSlotWidth/2, handleFromBoltFace])
+            //             {
+            //                 tcu([0, 0, handleBaseLength+2], [100, handleSlotWidth, 0.5]);
+            //                 rotate([0,0,-8]) cube([100, handleSlotWidth, handleBaseLength]);
+            //             }
+
+            //             // boltCylinder();
+            //         }
+            //     }
+            // }
 
             // Slot for guide:
             intersection() 
@@ -112,13 +152,19 @@ module itemModule()
     }
 }
 
+module boltCylinder()
+{
+    cylinder(d=boltOD+0.3, h=200);
+}
+
 module guideCylinder(extraDia=0)
 {
     tcy([0,0,-1], d=guideCylinderOD+extraDia, h=holderLength+2);
 }
 
 guideBumpTrimAngle1 = 19;
-guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1;
+guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1 - 6;
+
 guideBumpOD = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
 guideBumpCornerDia = 6;
 guideBumpCornerDiaOffsetX = guideBumpOD/2-guideBumpCornerDia/2;
@@ -127,8 +173,6 @@ module guideBump()
 {
     difference()
     {
-        // guideCylinder(extraDia=holderWallThickness);
-
         translate([0, 0, holderLength-guideBumpZ]) 
             simpleChamferedCylinderDoubleEnded(d=guideBumpOD, h=guideBumpZ, cz=holderEndCZ);
 
@@ -169,6 +213,12 @@ module clip(d=0)
     // tcy([0,0,20], d=100, h=400);
 
     // tcu([-200, -400+d, -10], 400);
+
+    // x = boltOD/2 + handleBaseHeight/2;
+    // echo(str(" Handle bump ctr X = ", x));
+    // tcu([x, -200, -10], 400);
+
+    // tcy([0,0,handleFromBoltFace+handleBaseLength], d=100, h=400);
 }
 
 if(developmentRender)
@@ -176,7 +226,7 @@ if(developmentRender)
 	display() itemModule();
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
 
-    display() translate([-60,0,0]) fitTest();
+    // display() translate([-60,0,0]) fitTest();
 }
 else
 {
