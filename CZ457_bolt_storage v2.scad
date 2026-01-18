@@ -26,6 +26,7 @@ makeTest = false;
 boltOD = 18;
 boltLength = 133;
 handleWidth = 8;
+handleBaseLength = 12;
 guideHeight = 6.6;
 handleFromBoltFace = 70;
 guideFromBoltFace = 83;
