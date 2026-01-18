@@ -149,7 +149,7 @@ module guideCylinder(extraDia=0)
 }
 
 guideBumpTrimAngle1 = 19;
-guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1 - 6;
+guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1 - 7;
 
 guideBumpOD = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
 guideBumpCornerDia = 6;
