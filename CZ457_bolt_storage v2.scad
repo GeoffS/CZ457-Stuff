@@ -22,6 +22,7 @@ include <../OpenSCAD_Lib/torus.scad>
 
 makeHolder = false;
 makeTest = false;
+makeCatch = false;
 
 boltOD = 18;
 boltLength = 133;
@@ -175,6 +176,11 @@ module itemModule()
     }
 }
 
+module catch()
+{
+    
+}
+
 module boltCylinder()
 {
     cylinder(d=boltOD+0.3, h=200);
@@ -206,7 +212,7 @@ module guideBump()
         guideBumpCornerOnExternalDiameter(a=guideBumpTrimAngle2);
 
         // Add an extension for the catch:
-        #guideBumpCorner(x=effectiveRadiusAtHandleSlotOutsideOpeningX, y=-holderOD/2);
+        guideBumpCorner(x=effectiveRadiusAtHandleSlotOutsideOpeningX, y=-holderOD/2);
         
         // Holder exterior for hull() smoothing:
         difference()
@@ -264,6 +270,7 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
+    displayGhost() translate([0,0,handleFromBoltFace]) catch();
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
     // display() rotate([0,0,-handelAndGuideAngle]) itemModule();
 
@@ -276,6 +283,7 @@ else
 {
 	if(makeHolder) itemModule();
     if(makeTest) fitTest();
+    if(makeCatch) catch();
 }
 
 module fitTest()
