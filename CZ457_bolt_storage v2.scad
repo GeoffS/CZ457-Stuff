@@ -80,12 +80,22 @@ handleBaseCtrX = boltOD/2 + handleBaseHeight/2;
 catchBoltHoleDia = 3.3; // m3
 catchSpringMinLength = 4.75;
 catchSpringHoleDia = 4.3;
-catchX = guideBumpOD - holderOD - 2;
+// MAGIC!!!
+//  Correct to edge of handle-slot opening.
+//  -------------------------------------------------------------------------vvvvv
+effectiveRadiusAtHandleSlotOutsideOpeningX = guideBumpOD/2 * handleSlotWidth/8.443;
+effectiveRadiusAtHandleSlotInsideOpeningX  =    holderID/2 * handleSlotWidth/9.15;
+
+catchCorrectionX = 0.8;
+catchCtrX = (effectiveRadiusAtHandleSlotOutsideOpeningX + effectiveRadiusAtHandleSlotInsideOpeningX)/2 - catchCorrectionX/2;
+catchX = effectiveRadiusAtHandleSlotOutsideOpeningX - effectiveRadiusAtHandleSlotInsideOpeningX - 2 - catchCorrectionX;
 catchZ = handleBaseLength + 15;
 
+echo(str("catchCtrX = ", catchCtrX));
 echo(str("catchX = ", catchX));
 echo(str("catchZ = ", catchZ));
 
+$fn = 180;
 
 module itemModule()
 {
@@ -148,8 +158,10 @@ module itemModule()
                 }
             }
 
-            // recess for catch:
-            // #tcu([0, 0, guideFromBoltFace], [catchX, 100, catchZ]);
+            // Recess for catch:
+            // %tcu([effectiveRadiusAtHandleSlotOutsideOpeningX, -50, guideFromBoltFace], [1, 100, 1]);
+            // %tcu([effectiveRadiusAtHandleSlotInsideOpeningX-1, -50, guideFromBoltFace], [1, 100, 1]);
+            tcu([catchCtrX-catchX/2, -100, handleFromBoltFace], [catchX, 100, catchZ]);
         }
 
         // Chamfer at entry of holder-slot:
@@ -228,7 +240,7 @@ module clip(d=0)
 
     // tcy([0,0,handleFromBoltFace+handleBaseLength], d=100, h=400);
 
-    rotate([0,0,45]) tcu([-400+d, -200, -10], 400);
+    // rotate([0,0,45]) tcu([-400+d, -200, -10], 400);
 }
 
 if(developmentRender)
