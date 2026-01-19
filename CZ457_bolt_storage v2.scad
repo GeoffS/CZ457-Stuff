@@ -94,7 +94,7 @@ catchCorrectionX = 0.8;
 
 catchCtrX = (effectiveRadiusAtHandleSlotOutsideOpeningX + effectiveRadiusAtHandleSlotInsideOpeningX)/2 - catchCorrectionX/2;
 catchRecessX = effectiveRadiusAtHandleSlotOutsideOpeningX - effectiveRadiusAtHandleSlotInsideOpeningX - 2 - catchCorrectionX;
-catchRecessY = 10;
+// catchRecessY defined below...
 catchRecessZ = handleBaseLength + handelAndGuideCZ + 5;
 
 echo(str("catchCtrX = ", catchCtrX));
@@ -102,13 +102,15 @@ echo(str("catchRecessX = ", catchRecessX));
 echo(str("catchRecessY = ", catchRecessY));
 echo(str("catchRecessZ = ", catchRecessZ));
 
-catchExtraY = 5;
+catchExtraY = 4;
 catchClearanceX = 0.2;
 catchClearanceZ = 0.2;
 
 catchX = catchRecessX - 2*catchClearanceX;
 catchY = handelAndGuideCZ + catchExtraY;
 catchZ = catchRecessZ - 2*catchClearanceZ;
+
+catchRecessY = catchY + 0.5;
 
 // $fn = 180;
 
@@ -170,7 +172,7 @@ module itemModule()
             }
 
             // Recess for catch:
-            tcu([catchCtrX-catchRecessX/2, -100, handleFromBoltFace], [catchRecessX, 100, catchRecessZ]);
+            tcu([catchCtrX-catchRecessX/2, -catchRecessY-handleSlotWidth/2, handleFromBoltFace], [catchRecessX, catchRecessY, catchRecessZ]);
         }
 
         // Chamfer at entry of holder-slot:
@@ -280,6 +282,7 @@ module clip(d=0)
     // tcu([x, -200, -10], 400);
 
     // tcy([0,0,handleFromBoltFace+handleBaseLength], d=100, h=400);
+    tcy([0,0,handleFromBoltFace+holderEndThickness+handleBaseLength/2-d], d=100, h=400);
 
     // rotate([0,0,45]) tcu([-400+d, -200, -10], 400);
 }
