@@ -54,11 +54,37 @@ handleSlotWidth = handleWidth + handleSlotWidthExtra;
 guideBumpBottomZ = handleFromBoltFace + holderEndThickness;
 guideBumpZ = holderLength + holderEndCZ + 1 - guideBumpBottomZ;
 guideBumpExtraX = 5;
-guideBumpDia = 26;
 guideCylinderOD = 30;
-handelAndGuideCZ = 3;
+
+// MAGIC!!!
+//  Make handelAndGuideAngle ~= 8 degrees
+//   --------------vvvvv
+handelAndGuideCZ = 2.324;
+
+// MAGIC!!!
+// Make chamfer meet at top.
+//   ---------------------------------------------------------------vvvvv
+handelAndGuideAngle = -asin(handelAndGuideCZ/(guideCylinderOD/2)) * 0.898;
+
+echo(str("handelAndGuideAngle = ", handelAndGuideAngle));
+
+guideBumpTrimAngle1 = 19;
+guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1 - 7;
+
+guideBumpOD = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
+guideBumpCornerDia = 6;
+guideBumpCornerDiaOffsetX = guideBumpOD/2-guideBumpCornerDia/2;
 
 handleBaseCtrX = boltOD/2 + handleBaseHeight/2;
+
+catchBoltHoleDia = 3.3; // m3
+catchSpringMinLength = 4.75;
+catchSpringHoleDia = 4.3;
+catchX = guideBumpOD - holderOD - 2;
+catchZ = handleBaseLength + 15;
+
+echo(str("catchX = ", catchX));
+echo(str("catchZ = ", catchZ));
 
 
 module itemModule()
@@ -94,10 +120,11 @@ module itemModule()
             // Notch at bottom of bolt-handle slot:
             hull()
             {
-                translate([0, -handleSlotWidth/2, handleFromBoltFace]) rotate([0,0,-8]) 
+                translate([0, -handleSlotWidth/2, handleFromBoltFace]) rotate([0,0,handelAndGuideAngle]) 
                 {
-                    tcu([0, handelAndGuideCZ, handleBaseLength+handelAndGuideCZ], [100, handleSlotWidth-handelAndGuideCZ, 0.5]);
-                    cube([100, handleSlotWidth, handleBaseLength]);
+                    z = handelAndGuideCZ; //0.5;
+                    #tcu([0, handelAndGuideCZ, handleBaseLength], [100, handleSlotWidth-handelAndGuideCZ, z]);
+                    #cube([100, handleSlotWidth, handleBaseLength]);
                 }
             }
 
@@ -114,13 +141,16 @@ module itemModule()
                 guideCylinder();
                 hull()
                 {
-                    rotate([0,0,guideOffsetFromHandle_deg]) translate([0, -handleSlotWidth/2, guideFromBoltFace]) rotate([0,0,-8]) 
+                    rotate([0,0,guideOffsetFromHandle_deg]) translate([0, -handleSlotWidth/2, guideFromBoltFace]) rotate([0,0,handelAndGuideAngle]) 
                     {
                         tcu([0, handelAndGuideCZ, guideKength+handelAndGuideCZ], [100, handleSlotWidth-handelAndGuideCZ, 0.5]);
                         cube([100, handleSlotWidth, guideKength]);
                     }
                 }
             }
+
+            // recess for catch:
+            // #tcu([0, 0, guideFromBoltFace], [catchX, 100, catchZ]);
         }
 
         // Chamfer at entry of holder-slot:
@@ -143,17 +173,10 @@ module boltCylinder()
     cylinder(d=boltOD+0.3, h=200);
 }
 
-module guideCylinder(extraDia=0)
+module guideCylinder()
 {
-    tcy([0,0,-1], d=guideCylinderOD+extraDia, h=holderLength+2);
+    tcy([0,0,-1], d=guideCylinderOD, h=holderLength+2);
 }
-
-guideBumpTrimAngle1 = 19;
-guideBumpTrimAngle2 = -guideOffsetFromHandle_deg - guideBumpTrimAngle1 - 7;
-
-guideBumpOD = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
-guideBumpCornerDia = 6;
-guideBumpCornerDiaOffsetX = guideBumpOD/2-guideBumpCornerDia/2;
 
 module guideBump()
 {
@@ -205,12 +228,15 @@ module clip(d=0)
     // tcu([x, -200, -10], 400);
 
     // tcy([0,0,handleFromBoltFace+handleBaseLength], d=100, h=400);
+
+    rotate([0,0,45]) tcu([-400+d, -200, -10], 400);
 }
 
 if(developmentRender)
 {
-	display() itemModule();
+	// display() itemModule();
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
+    display() rotate([0,0,-handelAndGuideAngle]) itemModule();
 
     // display() translate([-60,0,0]) fitTest();
 }
