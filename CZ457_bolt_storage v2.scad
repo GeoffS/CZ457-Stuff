@@ -92,6 +92,7 @@ effectiveRadiusAtHandleSlotInsideOpeningX  =    holderID/2 * handleSlotWidth/9.1
 catchCorrectionX = 0.8;
 catchCtrX = (effectiveRadiusAtHandleSlotOutsideOpeningX + effectiveRadiusAtHandleSlotInsideOpeningX)/2 - catchCorrectionX/2;
 catchX = effectiveRadiusAtHandleSlotOutsideOpeningX - effectiveRadiusAtHandleSlotInsideOpeningX - 2 - catchCorrectionX;
+catchY = 10;
 catchZ = handleBaseLength + 15;
 
 echo(str("catchCtrX = ", catchCtrX));
@@ -178,7 +179,7 @@ module itemModule()
 
 module catch()
 {
-    
+    tcu([0,0,0], [catchX, catchY, catchZ]);
 }
 
 module boltCylinder()
@@ -270,7 +271,9 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
-    displayGhost() translate([0,0,handleFromBoltFace]) catch();
+    displayGhost() translate([catchCtrX-catchX/2, -catchY-handleSlotWidth/2+handelAndGuideCZ, handleFromBoltFace+holderEndThickness]) catch();
+
+    display() translate([-30, 0, 0]) catch();
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
     // display() rotate([0,0,-handelAndGuideAngle]) itemModule();
 
