@@ -282,7 +282,7 @@ module clip(d=0)
     // tcu([x, -200, -10], 400);
 
     // tcy([0,0,handleFromBoltFace+handleBaseLength], d=100, h=400);
-    tcy([0,0,handleFromBoltFace+holderEndThickness+handleBaseLength/2-d], d=100, h=400);
+    // tcy([0,0,handleFromBoltFace+holderEndThickness+handleBaseLength/2-d], d=100, h=400);
 
     // rotate([0,0,45]) tcu([-400+d, -200, -10], 400);
 }
