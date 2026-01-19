@@ -159,8 +159,6 @@ module itemModule()
             }
 
             // Recess for catch:
-            // %tcu([effectiveRadiusAtHandleSlotOutsideOpeningX, -50, guideFromBoltFace], [1, 100, 1]);
-            // %tcu([effectiveRadiusAtHandleSlotInsideOpeningX-1, -50, guideFromBoltFace], [1, 100, 1]);
             tcu([catchCtrX-catchX/2, -100, handleFromBoltFace], [catchX, 100, catchZ]);
         }
 
@@ -250,6 +248,9 @@ if(developmentRender)
     // display() rotate([0,0,-handelAndGuideAngle]) itemModule();
 
     // display() translate([-60,0,0]) fitTest();
+
+    // displayGhost() tcu([effectiveRadiusAtHandleSlotOutsideOpeningX, -50, guideFromBoltFace], [1, 100, 1]);
+    // displayGhost() tcu([effectiveRadiusAtHandleSlotInsideOpeningX-1, -50, guideFromBoltFace], [1, 100, 1]);
 }
 else
 {
