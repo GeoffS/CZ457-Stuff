@@ -106,17 +106,7 @@ module itemModule()
         {
             exteriorCylinder();
 
-            hull()
-            {
-                guideBump();
-                
-                // Holder exterior for hull() smoothing:
-                difference()
-                {
-                    exteriorCylinder();
-                    tcy([0,0,guideBumpBottomZ-guideBumpExtraX-6-400], d=100, h=400);
-                }
-            }
+            guideBump();
         }
         
         translate([0,0,holderEndThickness])
@@ -189,21 +179,31 @@ module guideCylinder()
 
 module guideBump()
 {
-    difference()
+    hull()
     {
-        translate([0, 0, holderLength-guideBumpZ]) 
-            simpleChamferedCylinderDoubleEnded(d=guideBumpOD, h=guideBumpZ, cz=holderEndCZ);
-
-        rotate([0,0,guideOffsetFromHandle_deg]) 
+        difference()
         {
-            rotate([0,0, guideBumpTrimAngle1]) tcu([-200,   0, -10], 400);
-            rotate([0,0, guideBumpTrimAngle2]) tcu([-200,-400, -10], 400);
+            translate([0, 0, holderLength-guideBumpZ]) 
+                simpleChamferedCylinderDoubleEnded(d=guideBumpOD, h=guideBumpZ, cz=holderEndCZ);
+
+            rotate([0,0,guideOffsetFromHandle_deg]) 
+            {
+                rotate([0,0, guideBumpTrimAngle1]) tcu([-200,   0, -10], 400);
+                rotate([0,0, guideBumpTrimAngle2]) tcu([-200,-400, -10], 400);
+            }
+        }
+
+        // Round the corners:
+        guideBumpCorner(a=guideBumpTrimAngle1);
+        guideBumpCorner(a=guideBumpTrimAngle2);
+        
+        // Holder exterior for hull() smoothing:
+        difference()
+        {
+            exteriorCylinder();
+            tcy([0,0,guideBumpBottomZ-guideBumpExtraX-6-400], d=100, h=400);
         }
     }
-
-    // Round the corners:
-    guideBumpCorner(a=guideBumpTrimAngle1);
-    guideBumpCorner(a=guideBumpTrimAngle2);
 }
 
 module guideBumpCorner(a)
