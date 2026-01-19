@@ -91,13 +91,13 @@ effectiveRadiusAtHandleSlotInsideOpeningX  =    holderID/2 * handleSlotWidth/9.1
 
 catchCorrectionX = 0.8;
 catchCtrX = (effectiveRadiusAtHandleSlotOutsideOpeningX + effectiveRadiusAtHandleSlotInsideOpeningX)/2 - catchCorrectionX/2;
-catchX = effectiveRadiusAtHandleSlotOutsideOpeningX - effectiveRadiusAtHandleSlotInsideOpeningX - 2 - catchCorrectionX;
-catchY = 10;
-catchZ = handleBaseLength + 15;
+catchRecessX = effectiveRadiusAtHandleSlotOutsideOpeningX - effectiveRadiusAtHandleSlotInsideOpeningX - 2 - catchCorrectionX;
+catchRecessY = 10;
+catchRecessZ = handleBaseLength + 15;
 
 echo(str("catchCtrX = ", catchCtrX));
-echo(str("catchX = ", catchX));
-echo(str("catchZ = ", catchZ));
+echo(str("catchRecessX = ", catchRecessX));
+echo(str("catchRecessZ = ", catchRecessZ));
 
 $fn = 180;
 
@@ -159,7 +159,7 @@ module itemModule()
             }
 
             // Recess for catch:
-            tcu([catchCtrX-catchX/2, -100, handleFromBoltFace], [catchX, 100, catchZ]);
+            tcu([catchCtrX-catchRecessX/2, -100, handleFromBoltFace], [catchRecessX, 100, catchRecessZ]);
         }
 
         // Chamfer at entry of holder-slot:
@@ -179,7 +179,7 @@ module itemModule()
 
 module catch()
 {
-    tcu([0,0,0], [catchX, catchY, catchZ]);
+    tcu([0,0,0], [catchRecessX, catchRecessY, catchRecessZ]);
 }
 
 module boltCylinder()
@@ -271,7 +271,7 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
-    displayGhost() translate([catchCtrX-catchX/2, -catchY-handleSlotWidth/2+handelAndGuideCZ, handleFromBoltFace+holderEndThickness]) catch();
+    displayGhost() translate([catchCtrX-catchRecessX/2, -catchRecessY-handleSlotWidth/2+handelAndGuideCZ, handleFromBoltFace+holderEndThickness]) catch();
 
     display() translate([-30, 0, 0]) catch();
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
