@@ -64,7 +64,7 @@ handelAndGuideCZ = 2.324;
 // MAGIC!!!
 // Make chamfer meet at top.
 //   ---------------------------------------------------------------vvvvv
-handelAndGuideAngle = -asin(handelAndGuideCZ/(guideCylinderOD/2)) * 0.898;
+handelAndGuideAngle = asin(handelAndGuideCZ/(guideCylinderOD/2)) * 0.898;
 
 echo(str("handelAndGuideAngle = ", handelAndGuideAngle));
 
@@ -122,8 +122,8 @@ module itemModule()
             {
                 translate([0, -handleSlotWidth/2, handleFromBoltFace]) rotate([0,0,handelAndGuideAngle]) 
                 {
-                    #tcu([0, handelAndGuideCZ, handleBaseLength], [100, handleSlotWidth-handelAndGuideCZ, handelAndGuideCZ]);
-                    #cube([100, handleSlotWidth, handleBaseLength]);
+                    tcu([0, 0, handleBaseLength], [100, handleSlotWidth-handelAndGuideCZ, handelAndGuideCZ]);
+                    cube([100, handleSlotWidth, handleBaseLength]);
                 }
             }
 
@@ -142,7 +142,7 @@ module itemModule()
                 {
                     rotate([0,0,guideOffsetFromHandle_deg]) translate([0, -handleSlotWidth/2, guideFromBoltFace]) rotate([0,0,handelAndGuideAngle]) 
                     {
-                        tcu([0, handelAndGuideCZ, guideKength+handelAndGuideCZ], [100, handleSlotWidth-handelAndGuideCZ, 0.5]);
+                        tcu([0, 0, guideKength+handelAndGuideCZ], [100, handleSlotWidth-handelAndGuideCZ, 0.5]);
                         cube([100, handleSlotWidth, guideKength]);
                     }
                 }
