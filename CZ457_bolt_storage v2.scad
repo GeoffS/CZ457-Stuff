@@ -75,6 +75,8 @@ guideBumpOD = guideCylinderOD + 2*holderWallThickness - holderEndCZ;
 guideBumpCornerDia = 6;
 guideBumpCornerDiaOffsetX = guideBumpOD/2-guideBumpCornerDia/2;
 
+echo(str("guideBumpOD = ", guideBumpOD));
+
 handleBaseCtrX = boltOD/2 + handleBaseHeight/2;
 
 catchBoltHoleDia = 3.3; // m3
@@ -107,6 +109,12 @@ module itemModule()
             exteriorCylinder();
 
             guideBump();
+
+            // Catch external bump:
+            hull()
+            {
+
+            }
         }
         
         translate([0,0,holderEndThickness])
@@ -194,8 +202,11 @@ module guideBump()
         }
 
         // Round the corners:
-        guideBumpCorner(a=guideBumpTrimAngle1);
-        guideBumpCorner(a=guideBumpTrimAngle2);
+        guideBumpCornerOnExternalDiameter(a=guideBumpTrimAngle1);
+        guideBumpCornerOnExternalDiameter(a=guideBumpTrimAngle2);
+
+        // Add an extension for the catch:
+        #guideBumpCorner(x=effectiveRadiusAtHandleSlotOutsideOpeningX, y=-holderOD/2);
         
         // Holder exterior for hull() smoothing:
         difference()
@@ -206,11 +217,20 @@ module guideBump()
     }
 }
 
-module guideBumpCorner(a)
+module guideBumpCornerOnExternalDiameter(a)
 {
     translate([0, 0, holderLength-guideBumpZ]) 
             rotate([0,0, guideOffsetFromHandle_deg+a]) translate([guideBumpCornerDiaOffsetX,0,0]) 
                 simpleChamferedCylinderDoubleEnded(d=guideBumpCornerDia, h=guideBumpZ, cz=holderEndCZ);;
+}
+
+module guideBumpCorner(x, y)
+{
+    echo(str("guideBumpCorner(x, y) = ", x, ", ", y));
+    echo(str("y+guideBumpCornerDia/2 = ", y+guideBumpCornerDia/2));
+
+    translate([x-guideBumpCornerDia/2, y+guideBumpCornerDia/2, holderLength-guideBumpZ]) 
+        simpleChamferedCylinderDoubleEnded(d=guideBumpCornerDia, h=guideBumpZ, cz=holderEndCZ);;
 }
 
 module exteriorCylinder()
