@@ -122,8 +122,7 @@ module itemModule()
             {
                 translate([0, -handleSlotWidth/2, handleFromBoltFace]) rotate([0,0,handelAndGuideAngle]) 
                 {
-                    z = handelAndGuideCZ; //0.5;
-                    #tcu([0, handelAndGuideCZ, handleBaseLength], [100, handleSlotWidth-handelAndGuideCZ, z]);
+                    #tcu([0, handelAndGuideCZ, handleBaseLength], [100, handleSlotWidth-handelAndGuideCZ, handelAndGuideCZ]);
                     #cube([100, handleSlotWidth, handleBaseLength]);
                 }
             }
@@ -234,9 +233,9 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	// display() itemModule();
+	display() itemModule();
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
-    display() rotate([0,0,-handelAndGuideAngle]) itemModule();
+    // display() rotate([0,0,-handelAndGuideAngle]) itemModule();
 
     // display() translate([-60,0,0]) fitTest();
 }
