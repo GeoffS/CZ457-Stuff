@@ -89,11 +89,13 @@ catchSpringHoleDia = 4.3;
 effectiveRadiusAtHandleSlotOutsideOpeningX = guideBumpOD/2 * handleSlotWidth/8.443;
 effectiveRadiusAtHandleSlotInsideOpeningX  =    holderID/2 * handleSlotWidth/9.15;
 
+// Shift to put a bit more material on the outside of the catch-recess:
 catchCorrectionX = 0.8;
+
 catchCtrX = (effectiveRadiusAtHandleSlotOutsideOpeningX + effectiveRadiusAtHandleSlotInsideOpeningX)/2 - catchCorrectionX/2;
 catchRecessX = effectiveRadiusAtHandleSlotOutsideOpeningX - effectiveRadiusAtHandleSlotInsideOpeningX - 2 - catchCorrectionX;
 catchRecessY = 10;
-catchRecessZ = handleBaseLength + 15;
+catchRecessZ = handleBaseLength + handelAndGuideCZ + 5;
 
 echo(str("catchCtrX = ", catchCtrX));
 echo(str("catchRecessX = ", catchRecessX));
@@ -108,7 +110,7 @@ catchX = catchRecessX - 2*catchClearanceX;
 catchY = handelAndGuideCZ + catchExtraY;
 catchZ = catchRecessZ - 2*catchClearanceZ;
 
-$fn = 180;
+// $fn = 180;
 
 module itemModule()
 {
@@ -188,7 +190,12 @@ module itemModule()
 
 module catch()
 {
-    tcu([0,0,0], [catchX, catchY, catchZ]);
+    hull()
+    {
+        tcu([0,0,0], [catchX, catchY-handelAndGuideCZ-0.3, catchZ]);
+        tcu([0,0,0], [catchX, catchY, handleBaseLength+handelAndGuideCZ]);
+
+    }
 }
 
 module boltCylinder()
