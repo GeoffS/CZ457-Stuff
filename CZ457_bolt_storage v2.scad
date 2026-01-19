@@ -97,7 +97,16 @@ catchRecessZ = handleBaseLength + 15;
 
 echo(str("catchCtrX = ", catchCtrX));
 echo(str("catchRecessX = ", catchRecessX));
+echo(str("catchRecessY = ", catchRecessY));
 echo(str("catchRecessZ = ", catchRecessZ));
+
+catchExtraY = 5;
+catchClearanceX = 0.2;
+catchClearanceZ = 0.2;
+
+catchX = catchRecessX - 2*catchClearanceX;
+catchY = handelAndGuideCZ + catchExtraY;
+catchZ = catchRecessZ - 2*catchClearanceZ;
 
 $fn = 180;
 
@@ -179,7 +188,7 @@ module itemModule()
 
 module catch()
 {
-    tcu([0,0,0], [catchRecessX, catchRecessY, catchRecessZ]);
+    tcu([0,0,0], [catchX, catchY, catchZ]);
 }
 
 module boltCylinder()
@@ -271,7 +280,9 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
-    displayGhost() translate([catchCtrX-catchRecessX/2, -catchRecessY-handleSlotWidth/2+handelAndGuideCZ, handleFromBoltFace+holderEndThickness]) catch();
+    displayGhost() 
+        translate([catchCtrX-catchX/2, -catchY-handleSlotWidth/2+handelAndGuideCZ, handleFromBoltFace+holderEndThickness+catchClearanceZ]) 
+            catch();
 
     display() translate([-30, 0, 0]) catch();
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
