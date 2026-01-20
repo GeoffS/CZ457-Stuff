@@ -343,7 +343,7 @@ module catchGhost(showCatch=true)
 {
     if(showCatch) catch();
     // Guide-bolt:
-    boltLen = 30;
+    boltLen = 16;
     catchGuideXform() tcy([0,0,-boltLen+catchY-1], d=3, h=boltLen);
     // Spring (compressed):
     catchGuideXform() tcy([0, 0, -catchGuideSpringMinLength-handelAndGuideCZ], d=4, h=catchGuideSpringMinLength);
