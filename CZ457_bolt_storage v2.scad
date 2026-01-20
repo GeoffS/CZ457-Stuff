@@ -203,7 +203,7 @@ module catch()
         }
 
     // Hole to thread the guide into:
-    translate([catchX/2, 0, handleBaseLength/2]) rotate([-90,0,0]) tcy([0,0,-50], d=catchGuideBoltTheadHoleDia, h=100);
+    translate([catchX/2, 0, handleBaseLength/2]) rotate([-90,0,0]) tcy([0,0,-100+catchY-1], d=catchGuideBoltTheadHoleDia, h=100);
     }
 }
 
