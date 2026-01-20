@@ -80,9 +80,11 @@ echo(str("guideBumpOD = ", guideBumpOD));
 
 handleBaseCtrX = boltOD/2 + handleBaseHeight/2;
 
-catchBoltHoleDia = 3.3; // m3
-catchSpringMinLength = 4.75;
-catchSpringHoleDia = 4.3;
+catchGuideBoltHoleDia = 3.3; // m3 clearance
+catchGuideBoltTheadHoleDia = 2.95; //m3 self-threading
+catchGuideSpringMinLength = 4.75;
+catchGuideSpringHoleDia = 4.3;
+
 // MAGIC!!!
 //  Correct to edge of handle-slot opening.
 //  -------------------------------------------------------------------------vvvvv
@@ -192,11 +194,16 @@ module itemModule()
 
 module catch()
 {
-    hull()
+    difference()
     {
-        tcu([0,0,0], [catchX, catchY-handelAndGuideCZ-0.3, catchZ]);
-        tcu([0,0,0], [catchX, catchY, handleBaseLength+handelAndGuideCZ]);
+        hull()
+        {
+            tcu([0,0,0], [catchX, catchY-handelAndGuideCZ-0.3, catchZ]);
+            tcu([0,0,0], [catchX, catchY, handleBaseLength+handelAndGuideCZ]);
+        }
 
+    // Hole to thread the guide into:
+    translate([catchX/2, 0, handleBaseLength/2]) rotate([-90,0,0]) tcy([0,0,-50], d=catchGuideBoltTheadHoleDia, h=100);
     }
 }
 
@@ -281,8 +288,8 @@ module clip(d=0)
     // echo(str(" Handle bump ctr X = ", x));
     // tcu([x, -200, -10], 400);
 
-    // tcy([0,0,handleFromBoltFace+handleBaseLength], d=100, h=400);
-    // tcy([0,0,handleFromBoltFace+holderEndThickness+handleBaseLength/2-d], d=100, h=400);
+    // tcy([0,0,handleFromBoltFace+handleBaseLength-d], d=100, h=400);
+    tcy([0,0,handleFromBoltFace+holderEndThickness+handleBaseLength/2-d], d=100, h=400);
 
     // rotate([0,0,45]) tcu([-400+d, -200, -10], 400);
 }
