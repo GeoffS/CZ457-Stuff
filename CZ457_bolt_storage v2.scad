@@ -173,8 +173,20 @@ module itemModule()
                 }
             }
 
-            // Recess for catch:
-            tcu([catchCtrX-catchRecessX/2, -catchRecessY-handleSlotWidth/2, handleFromBoltFace], [catchRecessX, catchRecessY, catchRecessZ]);
+            translate([catchCtrX, 0, handleFromBoltFace])
+            {
+                // Recess for catch:
+                catchRecessOffsetY = -catchRecessY-handleSlotWidth/2;
+                tcu([-catchRecessX/2, catchRecessOffsetY, 0], [catchRecessX, catchRecessY, catchRecessZ]);
+
+                // Hole for catch guide-bolt:
+                translate([0, 0, handleBaseLength/2]) rotate([-90,0,0]) tcy([0,0,-100], d=catchGuideBoltHoleDia, h=100);
+
+                // Hole for catch spring:
+                catchGuideSpringHoleOffsetY = catchRecessOffsetY + nothing;
+                #translate([0, catchGuideSpringHoleOffsetY, handleBaseLength/2+catchClearanceZ]) rotate([-90,0,0]) tcy([0,0,-catchGuideSpringMinLength], d=catchGuideSpringHoleDia, h=catchGuideSpringMinLength);
+                
+            }
         }
 
         // Chamfer at entry of holder-slot:
@@ -202,9 +214,14 @@ module catch()
             tcu([0,0,0], [catchX, catchY, handleBaseLength+handelAndGuideCZ]);
         }
 
-    // Hole to thread the guide into:
-    translate([catchX/2, 0, handleBaseLength/2]) rotate([-90,0,0]) tcy([0,0,-100+catchY-1], d=catchGuideBoltTheadHoleDia, h=100);
+        // Hole to thread the guide into:
+        catchGuideXform() tcy([0,0,-100+catchY-1], d=catchGuideBoltTheadHoleDia, h=100);
     }
+}
+
+module catchGuideXform()
+{
+    translate([catchX/2, 0, handleBaseLength/2]) rotate([-90,0,0]) children();
 }
 
 module boltCylinder()
@@ -289,7 +306,7 @@ module clip(d=0)
     // tcu([x, -200, -10], 400);
 
     // tcy([0,0,handleFromBoltFace+handleBaseLength-d], d=100, h=400);
-    tcy([0,0,handleFromBoltFace+holderEndThickness+handleBaseLength/2-d], d=100, h=400);
+    // tcy([0,0,handleFromBoltFace+holderEndThickness+handleBaseLength/2-d], d=100, h=400);
 
     // rotate([0,0,45]) tcu([-400+d, -200, -10], 400);
 }
@@ -299,9 +316,14 @@ if(developmentRender)
 	display() itemModule();
     displayGhost() 
         translate([catchCtrX-catchX/2, -catchY-handleSlotWidth/2+handelAndGuideCZ, handleFromBoltFace+holderEndThickness+catchClearanceZ]) 
-            catch();
+            catchGhost();
 
-    display() translate([-30, 0, 0]) catch();
+    translate([-30, 0, 0]) 
+    {
+        display() catch();
+        displayGhost() catchGhost(showCatch=false);
+    }
+
     // display() rotate([0,0,-guideOffsetFromHandle_deg]) itemModule();
     // display() rotate([0,0,-handelAndGuideAngle]) itemModule();
 
@@ -315,6 +337,16 @@ else
 	if(makeHolder) itemModule();
     if(makeTest) fitTest();
     if(makeCatch) catch();
+}
+
+module catchGhost(showCatch=true)
+{
+    if(showCatch) catch();
+    // Guide-bolt:
+    boltLen = 30;
+    catchGuideXform() tcy([0,0,-boltLen+catchY-1], d=3, h=boltLen);
+    // Spring (compressed):
+    catchGuideXform() tcy([0, 0, -catchGuideSpringMinLength-handelAndGuideCZ], d=4, h=catchGuideSpringMinLength);
 }
 
 module fitTest()
